@@ -1,1 +1,6 @@
-//TODO: create the routes to use in our application to navigate
+import 'package:flutter/material.dart';
+import '../views/login_view.dart';
+
+Map<String, Widget Function(BuildContext)> routes = {
+  '/login': (context) => LoginView(),
+};
