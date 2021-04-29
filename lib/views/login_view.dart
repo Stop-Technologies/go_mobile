@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../backend_access/backend_service.dart';
+import '../services/backend_access/backend_service.dart';
 
 class LoginView extends StatefulWidget {
   @override
