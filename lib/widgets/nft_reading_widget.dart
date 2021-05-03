@@ -55,7 +55,7 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: appColors.nfcBackground),
+      decoration: BoxDecoration(color: appColors.darkBlue),
       alignment: Alignment.center,
       child: ScaleTransition(
         scale: _animation,
