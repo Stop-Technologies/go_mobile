@@ -55,7 +55,7 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: appColors.nfcBackground),
+      decoration: BoxDecoration(color: appColors.darkBlue),
       alignment: Alignment.center,
       child: ScaleTransition(
         scale: _animation,
@@ -73,19 +73,19 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
       String idString = tag.data['nfca']['identifier']
           .toString(); // Get identifier from nfc tag
       List<String> idComponents = idString
-          .substring(1, idString.length)
+          .substring(1, idString.length - 1)
           .split(', '); // Dividing identifier components
       int id = int.parse(
           HEX.encode([
-            int.parse(idComponents[4]),
             int.parse(idComponents[3]),
             int.parse(idComponents[2]),
-            int.parse(idComponents[1])
+            int.parse(idComponents[1]),
+            int.parse(idComponents[0])
           ]),
           radix: 16); // Transforming the components to the correct id
 
       backend.nfcAuth(id).then((result) {
-        //Code with server response
+        //TO DO Code with server response
       });
     });
   }
