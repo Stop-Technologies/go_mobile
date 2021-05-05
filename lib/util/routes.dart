@@ -1,6 +1,5 @@
 // Flutter imports;
 import 'package:flutter/material.dart';
-import 'package:go_mobile/views/access_view.dart';
 import 'package:go_mobile/views/nfc_view.dart';
 
 // Project imports
