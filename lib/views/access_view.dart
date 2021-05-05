@@ -1,6 +1,9 @@
+// Flutter imports
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_mobile/widgets/autorize_data_widget.dart';
 
+// Project imports
 import '../util/colors.dart' as appColors;
 import '../util/icons.dart' as appIcons;
 
@@ -49,68 +52,26 @@ class _AccessViewState extends State<AccessView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 30),
                     child: SvgPicture.asset(appIcons.goIcon,
                         width: 30, color: appColors.white),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 100),
+                    padding: const EdgeInsets.only(top: 15, bottom: 30),
                     child: SvgPicture.asset(appIcons.profileIcon, width: 100),
                   ),
-                  Container(
-                      decoration: BoxDecoration(
-                          color: appColors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(35),
-                              topRight: Radius.circular(35))),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.all(5), child: Text(_name)),
-                            Padding(
-                                padding: EdgeInsets.all(5), child: Text(_id)),
-                            Padding(
-                                padding: EdgeInsets.all(30),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: _backgroundColor,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          Center(
-                                            child: Text(_accessText,
-                                                style: TextStyle(
-                                                    color: appColors.white,
-                                                    fontSize: 30)),
-                                          ),
-                                          SizedBox(height: 20),
-                                          SvgPicture.asset(_iconName,
-                                              width: 140,
-                                              color: appColors.white),
-                                          SizedBox(height: 50)
-                                        ])))
-                          ]))
+                  AutorizeData(access: _access, name: _name, id: _id)
                 ])),
       ),
     );
   }
 
   void _setValues() {
-    if (this._access) {
+    _access = true;
+    if (this._access)
       this._backgroundColor = appColors.green;
-      this._accessText = 'Access Allowed';
-      this._iconName = appIcons.allowedIcon;
-    } else {
+    else
       this._backgroundColor = appColors.red;
-      this._accessText = 'Access Denied';
-      this._iconName = appIcons.deniedIcon;
-    }
   }
 
   Future<bool> _onBackArrowPressed() {

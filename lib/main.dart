@@ -1,5 +1,4 @@
-//import 'dart:html';
-
+// FLutter imports
 import 'package:flutter/material.dart';
 import 'util/routes.dart';
 
@@ -13,7 +12,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/access-view',
+      initialRoute: '/login',
       routes: routes,
     );
   }
