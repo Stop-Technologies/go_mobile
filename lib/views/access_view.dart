@@ -67,7 +67,6 @@ class _AccessViewState extends State<AccessView> {
   }
 
   void _setValues() {
-    _access = true;
     if (this._access)
       this._backgroundColor = appColors.green;
     else
