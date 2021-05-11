@@ -12,7 +12,8 @@ class AccessView extends StatefulWidget {
   bool _access;
   String _name, _id;
 
-  AccessView({bool access = false, String name = "UNKNOWN", String id = "-1"}) {
+  AccessView(
+      {@required bool access, @required String name, @required String id}) {
     this._access = access;
     this._name = name;
     this._id = id;
