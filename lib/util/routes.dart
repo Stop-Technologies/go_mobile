@@ -1,7 +1,8 @@
-//import 'dart:js';
-
+// Flutter imports;
 import 'package:flutter/material.dart';
 import 'package:go_mobile/views/nfc_view.dart';
+
+// Project imports
 import '../views/login_view.dart';
 import '../views/main_menu_view.dart';
 
