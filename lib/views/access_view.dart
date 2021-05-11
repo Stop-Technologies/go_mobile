@@ -42,10 +42,11 @@ class _AccessViewState extends State<AccessView> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: WillPopScope(
-        onWillPop: _onBackArrowPressed,
-        child: Container(
+    return LayoutBuilder(builder: (context, constraints) {
+      Widget layoutColumn;
+
+      if (constraints.maxHeight > 638) {
+        layoutColumn = Container(
             decoration: BoxDecoration(color: _backgroundColor),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,9 +62,36 @@ class _AccessViewState extends State<AccessView> {
                     child: SvgPicture.asset(appIcons.profileIcon, width: 100),
                   ),
                   AutorizeData(access: _access, name: _name, id: _id)
-                ])),
-      ),
-    );
+                ]));
+      } else {
+        layoutColumn = Container(
+            decoration: BoxDecoration(color: _backgroundColor),
+            child: SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: SvgPicture.asset(appIcons.goIcon,
+                          width: 30, color: appColors.white),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 30),
+                      child: SvgPicture.asset(appIcons.profileIcon, width: 100),
+                    ),
+                    AutorizeData(access: _access, name: _name, id: _id)
+                  ]),
+            ));
+      }
+
+      return Material(
+        child: WillPopScope(
+          onWillPop: _onBackArrowPressed,
+          child: layoutColumn,
+        ),
+      );
+    });
   }
 
   void _setValues() {

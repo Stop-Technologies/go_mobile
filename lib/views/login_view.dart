@@ -110,7 +110,7 @@ class _LoginViewState extends State<LoginView> {
         .authenticate(idController.text, passwordController.text)
         .then((result) {
       if (result['success']) {
-        Navigator.pushReplacementNamed(context, '/main-menu');
+        Navigator.pushReplacementNamed(context, '/nfc-view');
       } else {
         setState(() {
           idController.clear();

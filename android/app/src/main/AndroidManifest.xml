@@ -2,6 +2,7 @@
     package="com.example.go_mobile">
    <application
         android:label="go_mobile"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
