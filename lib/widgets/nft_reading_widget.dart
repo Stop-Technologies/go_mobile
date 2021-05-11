@@ -1,5 +1,6 @@
 // Flutter imports
 import 'package:flutter/material.dart';
+import 'package:go_mobile/views/access_view.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import "package:hex/hex.dart";
@@ -69,6 +70,8 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
 
   void readNfc() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+      NfcManager.instance.stopSession();
+
       var backend = api.BackendService(); // Starting backend service
       String idString = tag.data['nfca']['identifier']
           .toString(); // Get identifier from nfc tag
@@ -85,7 +88,17 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
           radix: 16); // Transforming the components to the correct id
 
       backend.nfcAuth(id).then((result) {
-        //TO DO Code with server response
+        if (result['error'] == null) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AccessView(
+                      access: result['access_user'],
+                      name: result['name_user'],
+                      id: id.toString())));
+        } else {
+          print('error en la respuesta del servidor!');
+        }
       });
     });
   }
