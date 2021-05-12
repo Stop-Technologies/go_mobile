@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:go_mobile/widgets/nft_reading_widget.dart';
+import 'package:go_mobile/widgets/nft_pause_widget.dart';
 
 class NFCView extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _NFCViewState extends State<NFCView> with SingleTickerProviderStateMixin {
         child: FutureBuilder<bool>(
             future: NfcManager.instance.isAvailable(),
             builder: (context, ss) =>
-                ss.data != true ? ncfNotFound() : loadAnimation()));
+                ss.data == true ? ncfNotFound() : loadAnimation()));
   }
 
   Future<bool> _onBackArrowPressed() {
@@ -25,7 +26,7 @@ class _NFCViewState extends State<NFCView> with SingleTickerProviderStateMixin {
   }
 
   Widget loadAnimation() {
-    return NfcAnimationWidget();
+    return NfcAnimationWidgetPause();
   }
 
   Widget ncfNotFound() {
