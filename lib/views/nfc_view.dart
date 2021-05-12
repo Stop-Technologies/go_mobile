@@ -7,6 +7,9 @@ import 'package:go_mobile/widgets/nft_pause_widget.dart';
 // Project imports
 import '../util/colors.dart' as appColors;
 
+// Project imports
+import '../util/colors.dart' as appColors;
+
 class NFCView extends StatefulWidget {
   @override
   _NFCViewState createState() => _NFCViewState();
