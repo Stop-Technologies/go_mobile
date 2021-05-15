@@ -11,4 +11,3 @@ const lightBlue = const Color(0xFF218BFB);
 const green = const Color(0xFF32BA7C);
 const red = const Color(0xFFF6465D);
 const orange = const Color(0xFFFF8F22);
-

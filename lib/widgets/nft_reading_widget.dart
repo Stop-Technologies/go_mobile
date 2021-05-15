@@ -69,7 +69,7 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
             width: 30,
           ),          
         ),     
-        Stack(
+        Column(
           children: <Widget>[
             ScaleTransition(
               scale: _animation,
