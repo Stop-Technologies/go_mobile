@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:go_mobile/widgets/nft_reading_widget.dart';
 import 'package:go_mobile/widgets/nft_pause_widget.dart';
-
-// Project imports
-import '../util/colors.dart' as appColors;
+import 'package:go_mobile/widgets/navigation_bar_widget.dart';
 
 // Project imports
 import '../util/colors.dart' as appColors;
@@ -32,7 +30,7 @@ class _NFCViewState extends State<NFCView> with SingleTickerProviderStateMixin {
   }
 
   Widget loadAnimation() {
-    return NfcAnimationWidgetPause();
+    return NfcAnimationWidget();
   }
 
   Widget ncfNotFound() {

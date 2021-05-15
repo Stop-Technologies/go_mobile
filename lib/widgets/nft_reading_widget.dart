@@ -55,16 +55,33 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: appColors.darkBlue),
-      alignment: Alignment.center,
-      child: ScaleTransition(
-        scale: _animation,
-        child: SvgPicture.asset(
-          appIcons.nfcIcon,
-          width: 150.0,
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(color: appColors.darkBlue),
         ),
-      ),
+        Positioned(
+          top: 30,
+          child: SvgPicture.asset(
+            appIcons.goIcon,
+            color: appColors.white,
+            width: 30,
+          ),          
+        ),     
+        Stack(
+          children: <Widget>[
+            ScaleTransition(
+              scale: _animation,
+              child: SvgPicture.asset(
+                appIcons.nfcIcon,
+                color: appColors.white,
+                width: 150.0,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

@@ -22,7 +22,7 @@ class _NfcAnimationWidgetPauseState extends State<NfcAnimationWidgetPause>
   @override
   void initState() {
     _controller = AnimationController(
-      duration: Duration(milliseconds: 9000),
+      duration: Duration(milliseconds: 1200),
       vsync: this,
     );
 
