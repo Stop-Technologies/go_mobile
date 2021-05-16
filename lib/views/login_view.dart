@@ -26,10 +26,10 @@ class _LoginViewState extends State<LoginView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text('Go',
-                  style: TextStyle(color: appColors.lightGrey, fontSize: 40)),
+                  style: TextStyle(color: appColors.white, fontSize: 40)),
               SvgPicture.asset(
                 appIcons.goIcon,
-                color: appColors.lightGrey,
+                color: appColors.white,
                 width: 50,
               ),
               SizedBox(height: 25),
@@ -38,7 +38,7 @@ class _LoginViewState extends State<LoginView> {
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Container(
                     decoration: BoxDecoration(
-                        color: appColors.lightGrey,
+                        color: appColors.white,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Column(
                       children: [
@@ -72,18 +72,6 @@ class _LoginViewState extends State<LoginView> {
                     )),
               ),
               Container(
-                child: TextButton(
-                  onPressed: () {
-                    //TODO: Create a view for this and push it here
-                  },
-                  child: Text(
-                    'Forgot Password',
-                    style: TextStyle(color: appColors.lightGrey, fontSize: 15),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Container(
                 height: 50,
                 width: 250,
                 decoration: BoxDecoration(
@@ -92,11 +80,23 @@ class _LoginViewState extends State<LoginView> {
                 child: TextButton(
                   onPressed: onLoginButtonPressed,
                   child: Text(
-                    'Login',
-                    style: TextStyle(color: appColors.lightGrey, fontSize: 25),
+                    'Log In',
+                    style: TextStyle(color: appColors.white, fontSize: 25),
                   ),
                 ),
               ),
+              SizedBox(height: 10),
+              Container(
+                child: TextButton(
+                  onPressed: () {
+                    //TODO: Create a view for this and push it here
+                  },
+                  child: Text(
+                    'Forgot Password',
+                    style: TextStyle(color: appColors.white, fontSize: 15),
+                  ),
+                ),
+              ),              
             ],
           ),
         ),
@@ -110,7 +110,7 @@ class _LoginViewState extends State<LoginView> {
         .authenticate(idController.text, passwordController.text)
         .then((result) {
       if (result['success']) {
-        Navigator.pushReplacementNamed(context, '/nfc-view');
+        Navigator.pushReplacementNamed(context, '/nav');
       } else {
         setState(() {
           idController.clear();

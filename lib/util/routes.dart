@@ -4,10 +4,10 @@ import 'package:go_mobile/views/nfc_view.dart';
 
 // Project imports
 import '../views/login_view.dart';
-import '../views/main_menu_view.dart';
+import '../widgets/navigation_bar_widget.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/login': (context) => LoginView(),
-  '/main-menu': (context) => MainMenuView(),
-  '/nfc-view': (context) => NFCView()
+  '/nfc-view': (context) => NFCView(),
+  '/nav': (context) => NavigationBar()
 };
