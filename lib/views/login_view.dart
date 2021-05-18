@@ -1,6 +1,7 @@
 // Flutter imports
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_mobile/widgets/navigation_bar_widget.dart';
 
 // Project imports
 import '../services/backend_access/backend_service.dart';
@@ -78,7 +79,8 @@ class _LoginViewState extends State<LoginView> {
                     color: appColors.darkBlue,
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
-                  onPressed: onLoginButtonPressed,
+                  onPressed: () =>
+                      onLoginButtonPressed(int.parse(idController.text)),
                   child: Text(
                     'Log In',
                     style: TextStyle(color: appColors.white, fontSize: 25),
@@ -96,7 +98,7 @@ class _LoginViewState extends State<LoginView> {
                     style: TextStyle(color: appColors.white, fontSize: 15),
                   ),
                 ),
-              ),              
+              ),
             ],
           ),
         ),
@@ -104,13 +106,14 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void onLoginButtonPressed() async {
+  void onLoginButtonPressed(int id) async {
     var service = BackendService();
     service
         .authenticate(idController.text, passwordController.text)
         .then((result) {
       if (result['success']) {
-        Navigator.pushReplacementNamed(context, '/nav');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => NavigationBar(id: id)));
       } else {
         setState(() {
           idController.clear();

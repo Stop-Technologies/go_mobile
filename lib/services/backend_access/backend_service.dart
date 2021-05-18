@@ -3,14 +3,14 @@ import 'dart:convert';
 
 class BackendService {
   //TODO: Use environment variables or configuration files.
-  String urlBase = 'http://localhost:3000/';
+  String urlBase = 'http://192.168.0.10:3000/';
   //TODO: Move this to an authentication module.
   dynamic authenticate(id, password) async {
     return makePostRequest('auth/login', {'id': id, 'password': password});
   }
 
-  dynamic nfcAuth(int id) async {
-    return makeGetRequest("users/verify/" + id.toString());
+  dynamic userInfo(int id) async {
+    return makeGetRequest('users/verify/${id.toString()}');
   }
 
   dynamic makePostRequest(route, body) async {
@@ -19,9 +19,9 @@ class BackendService {
     return jsonDecode(response.body);
   }
 
-  dynamic makeGetRequest(route, {header}) async {
+  dynamic makeGetRequest(route) async {
     var uri = Uri.parse(urlBase + route);
-    var response = await http.get(uri, headers: header);
+    var response = await http.get(uri);
     return jsonDecode(response.body);
   }
 }

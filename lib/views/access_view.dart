@@ -27,7 +27,7 @@ class AccessView extends StatefulWidget {
 class _AccessViewState extends State<AccessView> {
   Color _backgroundColor;
   bool _access;
-  String _name, _id, _accessText, _iconName;
+  String _name, _id;
 
   _AccessViewState({bool access, String name, String id}) {
     this._access = access;

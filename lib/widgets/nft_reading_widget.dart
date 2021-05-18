@@ -1,5 +1,6 @@
 // Flutter imports
 import 'package:flutter/material.dart';
+import 'package:go_mobile/core/helpers/userInfo.dart';
 import 'package:go_mobile/views/access_view.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -55,23 +56,23 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.center,
-      children: <Widget>[
-        Container(
-          decoration: BoxDecoration(color: appColors.darkBlue),
-        ),
-        Positioned(
-          top: 30,
-          child: SvgPicture.asset(
-            appIcons.goIcon,
-            color: appColors.white,
-            width: 30,
-          ),          
-        ),     
-        Column(
-          children: <Widget>[
-            ScaleTransition(
+    return Container(
+      decoration: BoxDecoration(color: appColors.darkBlue),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: SvgPicture.asset(
+              appIcons.goIcon,
+              color: appColors.white,
+              width: 30,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: ScaleTransition(
               scale: _animation,
               child: SvgPicture.asset(
                 appIcons.nfcIcon,
@@ -79,16 +80,15 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
                 width: 150.0,
               ),
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 
   void readNfc() {
+    UserInfo userInfo = new UserInfo();
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-      NfcManager.instance.stopSession();
-
       var backend = api.BackendService(); // Starting backend service
       String idString = tag.data['nfca']['identifier']
           .toString(); // Get identifier from nfc tag
@@ -104,14 +104,14 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
           ]),
           radix: 16); // Transforming the components to the correct id
 
-      backend.nfcAuth(id).then((result) {
+      backend.userInfo(id).then((result) {
         if (result['error'] == null) {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => AccessView(
-                      access: result['access_user'],
-                      name: result['name_user'],
+                      access: result['success'],
+                      name: result['user_name'],
                       id: id.toString())));
         } else {
           print('error en la respuesta del servidor!');
