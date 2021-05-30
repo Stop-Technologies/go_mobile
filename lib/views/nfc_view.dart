@@ -46,26 +46,24 @@ class _NFCViewState extends State<NFCView> with SingleTickerProviderStateMixin {
             appIcons.goIcon,
             color: appColors.white,
             width: 30,
-          ),          
-        ),     
-        Stack(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(10),
-              child: Icon(
-                Icons.warning,
-                color: Colors.white,
-                size: 150,
-              ),
-            ),
-          ]
+          ),
         ),
+        Stack(children: <Widget>[
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Icon(
+              Icons.warning,
+              color: Colors.white,
+              size: 150,
+            ),
+          ),
+        ]),
         Positioned(
-          bottom: 30,          
+          bottom: 30,
           child: Text(
             'NFC sensor not found',
             style: TextStyle(color: appColors.white, fontSize: 40),
-            ),
+          ),
         ),
       ],
     );

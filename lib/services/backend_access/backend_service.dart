@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class BackendService {
   //TODO: Use environment variables or configuration files.
-  String urlBase = 'http://192.168.0.10:3000/';
+  String urlBase = 'http://192.168.0.21:3000/';
   //TODO: Move this to an authentication module.
   dynamic authenticate(id, password) async {
     return makePostRequest('auth/login', {'id': id, 'password': password});

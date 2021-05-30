@@ -7,8 +7,8 @@ class UserInfo {
   Future<int> getInfo(int id) async {
     var service = BackendService();
 
-    service.userInfo(id).then((result) {
-      if (result['error'] != null) return 1;
+    await service.userInfo(id).then((result) {
+      if (result['error'] == null) return 1;
 
       this.name = result['user_name'];
       this.access = result['success'];

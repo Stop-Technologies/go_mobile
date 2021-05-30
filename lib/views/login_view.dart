@@ -51,8 +51,8 @@ class _LoginViewState extends State<LoginView> {
                             style: TextStyle(color: appColors.textColor),
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                labelText: 'Username',
-                                hintText: 'Enter your username'),
+                                labelText: 'Card ID',
+                                hintText: 'Enter your Card ID'),
                           ),
                         ),
                         Divider(),
@@ -111,9 +111,14 @@ class _LoginViewState extends State<LoginView> {
     service
         .authenticate(idController.text, passwordController.text)
         .then((result) {
-      if (result['success']) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => NavigationBar(id: id)));
+      if (result['success'] == true) {
+        service.userInfo(id).then((result) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      NavigationBar(name: result['user_name'], id: id)));
+        });
       } else {
         setState(() {
           idController.clear();
