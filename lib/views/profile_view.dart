@@ -11,14 +11,14 @@ import '../util/icons.dart' as appIcons;
 class ProfileView extends StatefulWidget {
   String _name, _id;
 
-  ProfileView(
-      {@required bool access, @required String name, @required String id}) {
+  ProfileView({@required String name, @required String id}) {
     this._name = name;
     this._id = id;
   }
 
   @override
-  _ProfileViewState createState() => _ProfileViewState(name: this._name, id: this._id);
+  _ProfileViewState createState() =>
+      _ProfileViewState(name: this._name, id: this._id);
 }
 
 class _ProfileViewState extends State<ProfileView> {
@@ -39,49 +39,43 @@ class _ProfileViewState extends State<ProfileView> {
       Widget layoutColumn;
 
       if (constraints.maxHeight > 500) {
-        layoutColumn = 
-        Container(
-          decoration: BoxDecoration(color: _backgroundColor),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: SvgPicture.asset(appIcons.goIcon,
-                    width: 30, color: appColors.white),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 30),
-                child: SvgPicture.asset(appIcons.profileIcon, width: 100),
-              ),
-              ProfileData(name: name, id: id),
-            ]
-          )
-        );
-      } else {
-        layoutColumn = 
-        Container(
-          decoration: BoxDecoration(color: _backgroundColor),
-          child: SingleChildScrollView(
+        layoutColumn = Container(
+            decoration: BoxDecoration(color: _backgroundColor),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: SvgPicture.asset(appIcons.goIcon,
-                      width: 30, color: appColors.white),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, bottom: 30),
-                  child: SvgPicture.asset(appIcons.profileIcon, width: 100),
-                ),
-                ProfileData(name: name, id: id),
-              ]
-            ),
-          )
-        );
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: SvgPicture.asset(appIcons.goIcon,
+                        width: 30, color: appColors.white),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15, bottom: 30),
+                    child: SvgPicture.asset(appIcons.profileIcon, width: 100),
+                  ),
+                  ProfileData(name: name, id: id),
+                ]));
+      } else {
+        layoutColumn = Container(
+            decoration: BoxDecoration(color: _backgroundColor),
+            child: SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: SvgPicture.asset(appIcons.goIcon,
+                          width: 30, color: appColors.white),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 30),
+                      child: SvgPicture.asset(appIcons.profileIcon, width: 100),
+                    ),
+                    ProfileData(name: name, id: id),
+                  ]),
+            ));
       }
 
       return Material(
@@ -90,17 +84,15 @@ class _ProfileViewState extends State<ProfileView> {
           child: layoutColumn,
         ),
       );
-      
     });
   }
 
   void _setValues() {
-      this._backgroundColor = appColors.lightBlue;
+    this._backgroundColor = appColors.lightBlue;
   }
 
   Future<bool> _onBackArrowPressed() {
     Navigator.pop(context);
     return null;
   }
-
 }
