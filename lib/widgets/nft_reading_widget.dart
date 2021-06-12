@@ -1,6 +1,5 @@
 // Flutter imports
 import 'package:flutter/material.dart';
-import 'package:go_mobile/core/helpers/userInfo.dart';
 import 'package:go_mobile/views/access_view.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,8 +17,8 @@ class NfcAnimationWidget extends StatefulWidget {
 
 class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -87,7 +86,6 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
   }
 
   void readNfc() {
-    UserInfo userInfo = new UserInfo();
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       var backend = api.BackendService(); // Starting backend service
       String idString = tag.data['nfca']['identifier']
@@ -104,7 +102,7 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
           ]),
           radix: 16); // Transforming the components to the correct id
 
-      backend.userInfo(id).then((result) {
+      backend.userInfo(id.toString()).then((result) {
         if (result['error'] == null) {
           Navigator.push(
               context,

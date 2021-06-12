@@ -112,7 +112,7 @@ class _LoginViewState extends State<LoginView> {
         .authenticate(idController.text, passwordController.text)
         .then((result) {
       if (result['success'] == true) {
-        service.userInfo(id).then((result) {
+        service.userInfo(id.toString()).then((result) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(

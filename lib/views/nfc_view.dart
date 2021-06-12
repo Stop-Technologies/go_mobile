@@ -26,7 +26,7 @@ class _NFCViewState extends State<NFCView> with SingleTickerProviderStateMixin {
 
   Future<bool> _onBackArrowPressed() {
     Navigator.pop(context);
-    return null;
+    return Future(() => false);
   }
 
   Widget loadAnimation() {

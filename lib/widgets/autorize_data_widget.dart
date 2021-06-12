@@ -8,11 +8,12 @@ import '../util/icons.dart' as appIcons;
 
 // ignore: must_be_immutable
 class AutorizeData extends StatelessWidget {
-  Color _backgroundColor;
-  String _accessText, _name, _id, _iconName;
-  bool _access;
+  late Color _backgroundColor;
+  late String _accessText, _name, _id, _iconName;
+  late bool _access;
 
-  AutorizeData({bool access, String name, String id}) {
+  AutorizeData(
+      {required bool access, required String name, required String id}) {
     this._access = access;
     this._name = name;
     this._id = id;

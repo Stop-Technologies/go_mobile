@@ -6,9 +6,9 @@ import '../util/colors.dart' as appColors;
 
 // ignore: must_be_immutable
 class ProfileData extends StatefulWidget {
-  String name, id;
+  late String name, id;
 
-  ProfileData({this.name, this.id});
+  ProfileData({required this.name, required this.id});
 
   @override
   _ProfileDataState createState() =>
@@ -16,9 +16,9 @@ class ProfileData extends StatefulWidget {
 }
 
 class _ProfileDataState extends State<ProfileData> {
-  String name, id;
+  late String name, id;
 
-  _ProfileDataState({this.name, this.id});
+  _ProfileDataState({required this.name, required this.id});
 
   @override
   Widget build(BuildContext context) {

@@ -9,22 +9,22 @@ import 'package:go_mobile/views/settings_view.dart';
 
 // ignore: must_be_immutable
 class NavigationBar extends StatefulWidget {
-  int id;
-  String name;
+  int? id = 0;
+  String? name = "";
 
   NavigationBar({this.id, this.name});
 
   @override
   _NavigationBarState createState() =>
-      _NavigationBarState(id: this.id, name: this.name);
+      _NavigationBarState(id: this.id!, name: this.name!);
 }
 
 class _NavigationBarState extends State<NavigationBar> {
-  List<Widget> _widgetOptions;
-  int _selectedIndex = 0, id;
-  String name;
+  List<Widget> _widgetOptions = [];
+  late int _selectedIndex = 0, id;
+  late String name;
 
-  _NavigationBarState({this.id, this.name});
+  _NavigationBarState({required this.id, required this.name});
 
   void _onItemTap(int index) {
     setState(() {
@@ -75,5 +75,7 @@ class _NavigationBarState extends State<NavigationBar> {
         return 'Unknown';
       }
     });
+
+    return 'Unknown';
   }
 }
