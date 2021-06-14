@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports
+import '../core/helpers/Auth_helper.dart';
 import '../util/colors.dart' as appColors;
 
 // ignore: must_be_immutable
@@ -16,6 +17,7 @@ class ProfileData extends StatefulWidget {
 }
 
 class _ProfileDataState extends State<ProfileData> {
+  AuthHelper helper = AuthHelper();
   late String name, id;
 
   _ProfileDataState({required this.name, required this.id});
@@ -112,6 +114,8 @@ class _ProfileDataState extends State<ProfileData> {
   }
 
   void onLogoutButtonPressed() async {
+    if (!await helper.logOut()) helper.removeTokens();
+
     Navigator.pushReplacementNamed(context, '/login');
   }
 }

@@ -6,8 +6,15 @@ class TokenManager {
   FlutterSecureStorage vault = FlutterSecureStorage();
 
   Future<bool> loadTokens() async {
-    userToken = (await vault.read(key: 'userToken'))!;
-    refreshToken = (await vault.read(key: 'refreshToken'))!;
+    userToken = await vault.read(key: 'userToken').then((value) {
+      if (value == null) return "";
+      return value;
+    });
+
+    refreshToken = await vault.read(key: 'refreshToken').then((value) {
+      if (value == null) return "";
+      return value;
+    });
 
     if (userToken == "" || refreshToken == "") return false;
 

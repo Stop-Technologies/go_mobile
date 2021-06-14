@@ -6,8 +6,8 @@ class BackendService {
 
   //TODO: Move this to an authentication module.
   dynamic authenticate(String id, String password) async {
-    return http.makePostRequest('auth/login', body: {
-      'id': id,
+    return await http.makePostRequest('auth/login', body: {
+      'username': id,
       'password': password,
       'grant_type': 'password',
       'client_id': 'go'
@@ -17,7 +17,7 @@ class BackendService {
   }
 
   dynamic refreshToken(String token) async {
-    return http.makePostRequest('auth/tokens/refresh', body: {
+    return await http.makePostRequest('auth/tokens/refresh', body: {
       'refresh_token': token,
       'grant_type': 'refresh_token',
       'client_id': 'go'
@@ -25,7 +25,7 @@ class BackendService {
   }
 
   dynamic revokeToken(String token) async {
-    return http.makePostRequest('auth/logout', body: {
+    return await http.makePostRequest('auth/logout', body: {
       'token': token,
       'token_type_hint': 'access_token',
       'client_id': 'go'
@@ -33,7 +33,7 @@ class BackendService {
   }
 
   dynamic userInfo(String token) async {
-    return http
+    return await http
         .makeGetRequest('users', headers: {'Authorization': 'Bearer $token'});
   }
 }

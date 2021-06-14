@@ -1,6 +1,6 @@
 // Flutter imports
 import 'package:flutter/material.dart';
-import 'package:go_mobile/services/backend_access/backend_service.dart';
+import 'package:go_mobile/core/helpers/Auth_helper.dart';
 
 // Project imports
 import 'package:go_mobile/views/profile_view.dart';
@@ -9,20 +9,20 @@ import 'package:go_mobile/views/settings_view.dart';
 
 // ignore: must_be_immutable
 class NavigationBar extends StatefulWidget {
-  int? id = 0;
-  String? name = "";
+  late String id, name;
 
-  NavigationBar({this.id, this.name});
+  NavigationBar({required this.id, required this.name});
 
   @override
   _NavigationBarState createState() =>
-      _NavigationBarState(id: this.id!, name: this.name!);
+      _NavigationBarState(id: this.id, name: this.name);
 }
 
 class _NavigationBarState extends State<NavigationBar> {
   List<Widget> _widgetOptions = [];
-  late int _selectedIndex = 0, id;
-  late String name;
+  AuthHelper helper = AuthHelper();
+  late int _selectedIndex = 0;
+  late String name, id;
 
   _NavigationBarState({required this.id, required this.name});
 
@@ -62,20 +62,5 @@ class _NavigationBarState extends State<NavigationBar> {
           currentIndex: _selectedIndex,
           onTap: _onItemTap,
         ));
-  }
-
-  Future<String> getUserInfo(id) async {
-    var service = BackendService();
-
-    service.userInfo(id).then((result) {
-      if (result['error'] == null) {
-        return result['user_name'];
-      } else {
-        print('Se hallo un error en NavigationBar Widget');
-        return 'Unknown';
-      }
-    });
-
-    return 'Unknown';
   }
 }
