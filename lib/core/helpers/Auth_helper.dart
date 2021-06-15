@@ -6,7 +6,8 @@ import '../token_manager.dart';
 class AuthHelper {
   TokenManager _tokens = TokenManager();
   BackendService _backend = BackendService();
-  String id = "", name = "", role = "";
+  String id = "", name = "", role = "", guestName = "";
+  bool access = false;
 
   AuthHelper() {
     _tokens.loadTokens();
@@ -70,6 +71,19 @@ class AuthHelper {
       this.id = value['user']['id'];
       this.name = value['user']['name'];
       this.role = value['user']['role'];
+
+      return true;
+    });
+  }
+
+  Future<bool> guestInfo(String id) async {
+    if (!await hasTokens()) return false;
+
+    return await _backend.guestInfo(_tokens.userToken, id).then((value) {
+      if (value['statusCode'] as int != 200) return false;
+
+      this.access = value['access'];
+      this.guestName = value['name'];
 
       return true;
     });

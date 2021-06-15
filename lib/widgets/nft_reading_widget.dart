@@ -1,12 +1,12 @@
 // Flutter imports
 import 'package:flutter/material.dart';
-import 'package:go_mobile/views/access_view.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import "package:hex/hex.dart";
+import 'package:hex/hex.dart';
 
 // Project imports
-import '../services/backend_access/backend_service.dart' as api;
+import '../core/helpers/Auth_helper.dart';
+import '../views/access_view.dart';
 import '../util/colors.dart' as appColors;
 import '../util/icons.dart' as appIcons;
 
@@ -87,34 +87,56 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
 
   void readNfc() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-      var backend = api.BackendService(); // Starting backend service
-      String idString = tag.data['nfca']['identifier']
-          .toString(); // Get identifier from nfc tag
-      List<String> idComponents = idString
-          .substring(1, idString.length - 1)
-          .split(', '); // Dividing identifier components
-      int id = int.parse(
-          HEX.encode([
-            int.parse(idComponents[3]),
-            int.parse(idComponents[2]),
-            int.parse(idComponents[1]),
-            int.parse(idComponents[0])
-          ]),
-          radix: 16); // Transforming the components to the correct id
+      AuthHelper helper = AuthHelper();
+      int id = extractId(tag);
 
-      backend.userInfo(id.toString()).then((result) {
-        if (result['error'] == null) {
+      await helper.guestInfo(id.toString()).then((value) {
+        if (value) {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => AccessView(
-                      access: result['success'],
-                      name: result['user_name'],
+                      access: helper.access,
+                      name: helper.guestName,
                       id: id.toString())));
         } else {
-          print('error en la respuesta del servidor!');
+          errorPopup('Se produjo un error al leer la tarjeta inteligente');
         }
       });
     });
+  }
+
+  int extractId(NfcTag tag) {
+    String idString = tag.data['nfca']['identifier']
+        .toString(); // Get identifier from nfc tag
+
+    List<String> idComponents = idString
+        .substring(1, idString.length - 1)
+        .split(', '); // Dividing identifier components
+
+    int id = int.parse(
+        HEX.encode([
+          int.parse(idComponents[3]),
+          int.parse(idComponents[2]),
+          int.parse(idComponents[1]),
+          int.parse(idComponents[0])
+        ]),
+        radix: 16); // Transforming the components to the correct id
+
+    return id;
+  }
+
+  void errorPopup(String message) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text('Error'),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('OK'))
+              ],
+            ));
   }
 }

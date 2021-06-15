@@ -4,7 +4,6 @@ import 'dart:convert';
 class BackendService {
   final _HttpRequests http = new _HttpRequests();
 
-  //TODO: Move this to an authentication module.
   dynamic authenticate(String id, String password) async {
     return await http.makePostRequest('auth/login', body: {
       'username': id,
@@ -36,11 +35,16 @@ class BackendService {
     return await http
         .makeGetRequest('users', headers: {'Authorization': 'Bearer $token'});
   }
+
+  dynamic guestInfo(String token, String id) async {
+    return await http.makeGetRequest('permissions/access/$id',
+        headers: {'Authorization': 'Bearer $token'});
+  }
 }
 
 class _HttpRequests {
   //TODO: Use environment variables or configuration files.
-  String urlBase = 'http://192.168.0.21:3000/';
+  String urlBase = 'http://192.168.0.22:3000/';
 
   dynamic makePostRequest(route, {body, headers}) async {
     var uri = Uri.parse(urlBase + route);

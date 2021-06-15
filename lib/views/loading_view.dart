@@ -39,8 +39,6 @@ class _LoadingViewState extends State<LoadingView> {
     bool tokens = await helper.hasTokens(),
         usrInfo = await helper.profileInfo();
 
-    print('$tokens - $usrInfo');
-
     if (tokens && usrInfo) {
       Navigator.pushReplacement(
           context,
