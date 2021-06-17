@@ -1,10 +1,10 @@
 // Flutter imports
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_mobile/widgets/navigation_bar_widget.dart';
 
 // Project imports
-import '../services/backend_access/backend_service.dart';
+import '../widgets/navigation_bar_widget.dart';
+import '../core/helpers/Auth_helper.dart';
 import '../util/colors.dart' as appColors;
 import '../util/icons.dart' as appIcons;
 
@@ -16,6 +16,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   TextEditingController idController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  AuthHelper helper = AuthHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +80,7 @@ class _LoginViewState extends State<LoginView> {
                     color: appColors.darkBlue,
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
-                  onPressed: () =>
-                      onLoginButtonPressed(int.parse(idController.text)),
+                  onPressed: () => onLoginButtonPressed(context),
                   child: Text(
                     'Log In',
                     style: TextStyle(color: appColors.white, fontSize: 25),
@@ -91,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
               Container(
                 child: TextButton(
                   onPressed: () {
-                    //TODO: Create a view for this and push it here
+                    errorPopup('Esta función no está implementada de momento');
                   },
                   child: Text(
                     'Forgot Password',
@@ -106,25 +106,43 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void onLoginButtonPressed(int id) async {
-    var service = BackendService();
-    service
-        .authenticate(idController.text, passwordController.text)
-        .then((result) {
-      if (result['success'] == true) {
-        service.userInfo(id).then((result) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      NavigationBar(name: result['user_name'], id: id)));
-        });
-      } else {
-        setState(() {
-          idController.clear();
-          passwordController.clear();
-        });
-      }
-    });
+  void onLoginButtonPressed(BuildContext context) async {
+    bool login = await helper
+        .logIn(idController.text, passwordController.text)
+        .then((value) => value);
+
+    if (!login) {
+      idController.text = "";
+      passwordController.text = "";
+      errorPopup('Algun dato ingresado es incorrecto');
+      return;
+    }
+
+    bool info = await helper.profileInfo().then((value) => value);
+
+    if (!info) {
+      errorPopup('La respuesta del servidor no fue posible');
+      return;
+    }
+
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                NavigationBar(id: helper.id, name: helper.name)));
+  }
+
+  void errorPopup(String message) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text('Error'),
+              content: Text(message),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('OK'))
+              ],
+            ));
   }
 }

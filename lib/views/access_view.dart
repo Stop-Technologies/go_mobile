@@ -9,11 +9,10 @@ import '../util/icons.dart' as appIcons;
 
 // ignore: must_be_immutable
 class AccessView extends StatefulWidget {
-  bool _access;
-  String _name, _id;
+  late bool _access;
+  late String _name, _id;
 
-  AccessView(
-      {@required bool access, @required String name, @required String id}) {
+  AccessView({required bool access, required String name, required String id}) {
     this._access = access;
     this._name = name;
     this._id = id;
@@ -25,11 +24,12 @@ class AccessView extends StatefulWidget {
 }
 
 class _AccessViewState extends State<AccessView> {
-  Color _backgroundColor;
-  bool _access;
-  String _name, _id;
+  late Color _backgroundColor;
+  late bool _access;
+  late String _name, _id;
 
-  _AccessViewState({bool access, String name, String id}) {
+  _AccessViewState(
+      {required bool access, required String name, required String id}) {
     this._access = access;
     this._name = name;
     this._id = id;
@@ -104,6 +104,6 @@ class _AccessViewState extends State<AccessView> {
 
   Future<bool> _onBackArrowPressed() {
     Navigator.pop(context);
-    return null;
+    return Future(() => false);
   }
 }
