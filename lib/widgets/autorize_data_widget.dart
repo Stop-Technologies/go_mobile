@@ -1,6 +1,6 @@
 // Flutter imports
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 
 // Project imports
 import '../util/colors.dart' as appColors;
@@ -96,6 +96,8 @@ class AutorizeData extends StatelessWidget {
             ]));
   }
 
+  /// The private function _setValues is used to change the [_backgroundColor],
+  /// [_accessText] and [_iconName] for the access card
   void _setValues() {
     if (this._access) {
       this._backgroundColor = appColors.green;

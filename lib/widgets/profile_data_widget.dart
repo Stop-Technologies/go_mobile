@@ -88,7 +88,7 @@ class _ProfileDataState extends State<ProfileData> {
                                   color: appColors.orange,
                                   borderRadius: BorderRadius.circular(20)),
                               child: TextButton(
-                                onPressed: onLogoutButtonPressed,
+                                onPressed: _onLogoutButtonPressed,
                                 child: Text(
                                   'Log Out',
                                   style: TextStyle(
@@ -113,7 +113,9 @@ class _ProfileDataState extends State<ProfileData> {
             ]));
   }
 
-  void onLogoutButtonPressed() async {
+  /// Is an asyncronous private function used to log out from the backend
+  /// services and revoke the tokens from the app
+  void _onLogoutButtonPressed() async {
     if (!await helper.logOut()) helper.removeTokens();
 
     Navigator.pushReplacementNamed(context, '/login');

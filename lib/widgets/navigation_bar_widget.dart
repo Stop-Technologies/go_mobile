@@ -1,11 +1,12 @@
 // Flutter imports
 import 'package:flutter/material.dart';
-import 'package:go_mobile/core/helpers/Auth_helper.dart';
 
 // Project imports
-import 'package:go_mobile/views/profile_view.dart';
-import 'package:go_mobile/views/nfc_view.dart';
-import 'package:go_mobile/views/settings_view.dart';
+import '../core/helpers/Auth_helper.dart';
+import '../util/icons.dart' as appIcons;
+import '../views/settings_view.dart';
+import '../views/profile_view.dart';
+import '../views/nfc_view.dart';
 
 // ignore: must_be_immutable
 class NavigationBar extends StatefulWidget {
@@ -21,16 +22,10 @@ class NavigationBar extends StatefulWidget {
 class _NavigationBarState extends State<NavigationBar> {
   List<Widget> _widgetOptions = [];
   AuthHelper helper = AuthHelper();
-  late int _selectedIndex = 0;
+  late int _selectedIndex = 1;
   late String name, id;
 
   _NavigationBarState({required this.id, required this.name});
-
-  void _onItemTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,20 +42,28 @@ class _NavigationBarState extends State<NavigationBar> {
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('Profile'),
+              icon: Icon(appIcons.profileBarIcon),
+              label: 'Profile',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.nfc_rounded),
-              title: Text('Scan'),
+              icon: Icon(appIcons.nfcBarIcon),
+              label: 'Scan',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Settings'),
+              icon: Icon(appIcons.settingsBarIcon),
+              label: 'Settings',
             ),
           ],
           currentIndex: _selectedIndex,
           onTap: _onItemTap,
         ));
+  }
+
+  /// The private function _onItemTap is used to change the [_selectedIndex] to
+  /// the user actions in the navigation bar
+  void _onItemTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
