@@ -38,7 +38,7 @@ class _NFCViewState extends State<NFCView> with SingleTickerProviderStateMixin {
       alignment: AlignmentDirectional.center,
       children: <Widget>[
         Container(
-          decoration: BoxDecoration(color: appColors.darkBlue),
+          decoration: BoxDecoration(color: appColors.lightBlue),
         ),
         Positioned(
           top: 30,

@@ -129,11 +129,19 @@ class _LoginViewState extends State<LoginView> {
       return;
     }
 
+    // Check if is admin
+    if (helper.role == 'admin')
+      _navigateToHome(true);
+    else
+      _navigateToHome(false);
+  }
+
+  void _navigateToHome(bool admin) {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                NavigationBar(id: helper.id, name: helper.name)));
+                NavigationBar(id: helper.id, name: helper.name, admin: admin)));
   }
 
   /// The private function _errorPopup is used to display an alert dialog when an

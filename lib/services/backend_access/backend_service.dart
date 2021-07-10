@@ -63,7 +63,7 @@ class BackendService {
 /// to send querys and get data from the backend service
 class _HttpRequests {
   //TODO: Use environment variables or configuration files.
-  String urlBase = 'http://192.168.0.22:3000/';
+  String urlBase = 'http://192.168.0.11:3000/';
 
   /// Is an asyncronous function used to generate a post request to the API
   /// endpoints with a given route, body and headers

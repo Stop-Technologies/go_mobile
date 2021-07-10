@@ -11,3 +11,4 @@ const profileBarIcon = Icons.person;
 const nfcBarIcon = Icons.nfc_rounded;
 const settingsBarIcon = Icons.settings;
 const warningIcon = Icons.warning;
+const controlBarIcon = Icons.account_tree_rounded;

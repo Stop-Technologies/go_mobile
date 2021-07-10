@@ -47,34 +47,40 @@ class _LoadingViewState extends State<LoadingView> {
 
     // Check if logged and valid tokens
     if (tokens && usrInfo) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  NavigationBar(id: helper.id, name: helper.name)));
+      if (helper.role == 'admin') {
+        _navigateToHome(true);
+      } else {
+        _navigateToHome(false);
+      }
       return true;
     }
 
     // Try to refresh the access tokens if is logged
     if (tokens && !usrInfo) {
       helper.refreshToken();
-      return await helper.profileInfo().then((value) async {
-        if (value) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      NavigationBar(id: helper.id, name: helper.name)));
-          return true;
-        }
+      bool value = await helper.profileInfo().then((value) => value);
 
-        await helper.removeTokens();
-        Navigator.pushReplacementNamed(context, '/login');
-        return false;
-      });
+      if (value) {
+        if (helper.role == 'admin') {
+          _navigateToHome(true);
+        } else {
+          _navigateToHome(false);
+        }
+        return true;
+      }
+
+      await helper.removeTokens();
     }
 
     Navigator.pushReplacementNamed(context, '/login');
     return false;
+  }
+
+  void _navigateToHome(bool admin) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                NavigationBar(id: helper.id, name: helper.name, admin: admin)));
   }
 }

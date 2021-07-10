@@ -105,8 +105,6 @@ class _NfcAnimationWidgetState extends State<NfcAnimationWidget>
                       access: helper.access,
                       name: helper.guestName,
                       id: id.toString())));
-
-          NfcManager.instance.stopSession();
         } else {
           _errorPopup('Se produjo un error al leer la tarjeta inteligente');
         }
