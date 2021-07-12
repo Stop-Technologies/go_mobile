@@ -50,11 +50,43 @@ class BackendService {
         .makeGetRequest('users', headers: {'Authorization': 'Bearer $token'});
   }
 
+  /// Is an asyncronous function used to generate a structured get query to
+  /// get access to permissions data stored in the backend service
+  /// * return the API response
+  dynamic permissionsInfo(String token) async {
+    return await http.makeGetRequest('admin/permissions',
+        headers: {'Authorization': 'Bearer $token'});
+  }
+
+  /// Is an asyncronous function used to generate a structured get query to
+  /// get access to a place data stored in the backend service
+  /// * retrun the API response
+  dynamic placeInfo(String token, String id) async {
+    return await http.makeGetRequest('admin/places/$id',
+        headers: {'Authorization': 'Bearer $token'});
+  }
+
   /// Is an asyncronous function used to generate a structures get query to
   /// get access to guest data stored in the backend service
   /// * return the API response
   dynamic guestInfo(String token, String id) async {
     return await http.makeGetRequest('permissions/access/$id',
+        headers: {'Authorization': 'Bearer $token'});
+  }
+
+  /// Is an asyncronous function used to generate a structured get query to
+  /// get access to all places data stored in the backend service
+  /// * retrun the API response
+  dynamic placesInfo(String token) async {
+    return await http.makeGetRequest('admin/places',
+        headers: {'Authorization': 'Bearer $token'});
+  }
+
+  /// Is an asyncronous function used to generate a structures get query to
+  /// get access to all guests data stored in the backend service
+  /// * return the API response
+  dynamic guestsInfo(String token) async {
+    return await http.makeGetRequest('permissions/access',
         headers: {'Authorization': 'Bearer $token'});
   }
 }
@@ -63,7 +95,7 @@ class BackendService {
 /// to send querys and get data from the backend service
 class _HttpRequests {
   //TODO: Use environment variables or configuration files.
-  String urlBase = 'http://192.168.43.219:3000/';
+  String urlBase = 'http://192.168.0.153:3000/';
 
   /// Is an asyncronous function used to generate a post request to the API
   /// endpoints with a given route, body and headers

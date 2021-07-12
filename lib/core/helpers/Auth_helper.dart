@@ -1,4 +1,6 @@
 // Project imports
+import 'package:go_mobile/core/models/permissions_model.dart';
+
 import '../../services/backend_access/backend_service.dart';
 import '../token_manager.dart';
 
@@ -105,6 +107,57 @@ class AuthHelper {
 
       return true;
     });
+  }
+
+  /// Is an asyncronous function used to get the permissions data from the
+  /// backend to display in the app
+  /// * return the organiced list of PermissionModels to display
+  Future<List<PermissionModel>> permissionInfo() async {
+    List<PermissionModel> data = [];
+
+    await _backend.permissionsInfo(_tokens.userToken).then((value) async {
+      if (value['statusCode'] as int != 200) return [];
+
+      // Get all permissions
+      List result = value['permissions'];
+
+      // Get all places
+      List places = await _backend.placesInfo(_tokens.userToken).then((value) {
+        if (value['statusCode'] as int != 200) return [];
+
+        return value['place'];
+      });
+
+      // Get all guests
+      List guests = await _backend.guestsInfo(_tokens.userToken).then((value) {
+        if (value['statusCode'] as int != 200) return [];
+
+        return value['guest'];
+      });
+
+      // Save all permissions into data list
+      for (dynamic index in result) {
+        String place = "", guest = "";
+
+        for (dynamic dataIndex in places) {
+          if (dataIndex['id'] == index['place_id']) place = dataIndex['name'];
+        }
+
+        for (dynamic dataIndex in guests) {
+          if (dataIndex['id'] == index['guest_id']) place = dataIndex['name'];
+        }
+
+        data.add(new PermissionModel(
+            place: place,
+            guest: guest,
+            startingDay: index['start_day'],
+            finishingDay: index['end_day'],
+            startingHour: index['start_time'],
+            finishingHour: index['end_time']));
+      }
+    });
+
+    return data;
   }
 
   /// Is an asyncronous function used to delete the access tokens from the

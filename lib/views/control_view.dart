@@ -1,5 +1,7 @@
 // Flutter imports
 import 'package:flutter/material.dart';
+import 'package:go_mobile/views/permissions_view.dart';
+import 'package:go_mobile/widgets/permission_widget.dart';
 
 // Project imports
 import '../util/colors.dart' as appColors;
@@ -27,7 +29,7 @@ class _ControlViewState extends State<ControlView> {
                       color: appColors.darkBlue,
                       borderRadius: BorderRadius.circular(30)),
                   child: TextButton(
-                      onPressed: _onPressed,
+                      onPressed: _onPlacesPressed,
                       child: Text('Lugares',
                           style: TextStyle(color: appColors.white))),
                 ),
@@ -39,7 +41,7 @@ class _ControlViewState extends State<ControlView> {
                       color: appColors.darkBlue,
                       borderRadius: BorderRadius.circular(30)),
                   child: TextButton(
-                      onPressed: _onPressed,
+                      onPressed: _onPermissionsPressed,
                       child: Text('Permisos',
                           style: TextStyle(color: appColors.white))),
                 ),
@@ -51,7 +53,7 @@ class _ControlViewState extends State<ControlView> {
                       color: appColors.darkBlue,
                       borderRadius: BorderRadius.circular(30)),
                   child: TextButton(
-                      onPressed: _onPressed,
+                      onPressed: _onGuestPressed,
                       child: Text('Invitados',
                           style: TextStyle(color: appColors.white))),
                 ),
@@ -63,7 +65,7 @@ class _ControlViewState extends State<ControlView> {
                       color: appColors.darkBlue,
                       borderRadius: BorderRadius.circular(30)),
                   child: TextButton(
-                      onPressed: _onPressed,
+                      onPressed: _onUsersPressed,
                       child: Text('Usuarios',
                           style: TextStyle(color: appColors.white))),
                 ),
@@ -71,5 +73,14 @@ class _ControlViewState extends State<ControlView> {
             ]));
   }
 
-  void _onPressed() {}
+  void _onPlacesPressed() {}
+
+  void _onPermissionsPressed() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => PermissionsView()));
+  }
+
+  void _onGuestPressed() {}
+
+  void _onUsersPressed() {}
 }
