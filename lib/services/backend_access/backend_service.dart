@@ -82,11 +82,28 @@ class BackendService {
         headers: {'Authorization': 'Bearer $token'});
   }
 
-  /// Is an asyncronous function used to generate a structures get query to
+  /// Is an asyncronous function used to generate a structured get query to
   /// get access to all guests data stored in the backend service
   /// * return the API response
   dynamic guestsInfo(String token) async {
     return await http.makeGetRequest('permissions/access',
+        headers: {'Authorization': 'Bearer $token'});
+  }
+
+  /// Is an asyncronous function used to generate a structured get query to
+  /// get access to all guests occupation logged in a place in the backend
+  /// service
+  /// * return the API response
+  dynamic occupationInfo(String token, String id) async {
+    return await http.makeGetRequest('admin/places/$id/current_guests',
+        headers: {'Authorization': 'Bearer $token'});
+  }
+
+  /// Is an asyncronous function used to generate a structured get query to
+  /// get access to user data stored in the backend service
+  /// * return the API response
+  dynamic usersInfo(String token) async {
+    return await http.makeGetRequest('admin/users',
         headers: {'Authorization': 'Bearer $token'});
   }
 }

@@ -1,52 +1,42 @@
-// Flutter imports
-import 'dart:ui';
-
+// Fluter imports
 import 'package:flutter/material.dart';
 
 // Project imports
 import '../util/colors.dart' as appColors;
 
-class PermissionWidget extends StatefulWidget {
-  late String _place, _guest, _days, _hours;
+class UserWidget extends StatefulWidget {
+  late String _id, _name, _role;
 
-  PermissionWidget(
+  UserWidget(
       {Key? key,
-      required String place,
-      required String guest,
-      required String days,
-      required String hours})
+      required String id,
+      required String name,
+      required String role})
       : super(key: key) {
-    this._place = place;
-    this._guest = guest;
-    this._days = days;
-    this._hours = hours;
+    this._id = id;
+    this._name = name;
+    this._role = role;
   }
 
   @override
-  _PermissionWidgetState createState() => _PermissionWidgetState(
-      place: _place, guest: _guest, days: _days, hours: _hours);
+  _UserWidgetState createState() =>
+      _UserWidgetState(id: this._id, name: this._name, role: this._role);
 }
 
-class _PermissionWidgetState extends State<PermissionWidget> {
-  late String place, guest, days, hours;
+class _UserWidgetState extends State<UserWidget> {
+  String id, name, role;
 
-  _PermissionWidgetState(
-      {required this.place,
-      required this.guest,
-      required this.days,
-      required this.hours});
+  _UserWidgetState({required this.id, required this.name, required this.role});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-      child: Container(
-          decoration: BoxDecoration(
-              color: appColors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+        padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+        child: Container(
+            decoration: BoxDecoration(
+                color: appColors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Column(
               children: [
                 Padding(
                     padding: EdgeInsets.fromLTRB(15, 15, 15, 2),
@@ -59,7 +49,7 @@ class _PermissionWidgetState extends State<PermissionWidget> {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(place,
+                                child: Text(id,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: appColors.textColor,
@@ -75,23 +65,7 @@ class _PermissionWidgetState extends State<PermissionWidget> {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(guest,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: appColors.textColor,
-                                        fontSize: 20)))))),
-                Padding(
-                    padding: EdgeInsets.fromLTRB(15, 2, 15, 2),
-                    child: Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: appColors.lightGrey,
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(days,
+                                child: Text(name,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: appColors.textColor,
@@ -107,12 +81,12 @@ class _PermissionWidgetState extends State<PermissionWidget> {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(hours,
+                                child: Text(role,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: appColors.textColor,
                                         fontSize: 20))))))
-              ])),
-    );
+              ],
+            )));
   }
 }

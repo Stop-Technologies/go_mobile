@@ -3,21 +3,21 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:flutter/material.dart';
 
 // Project imports
-import '../core/models/permissions_model.dart';
-import '../widgets/permission_widget.dart';
+import '../core/models/places_model.dart';
 import '../core/helpers/Auth_helper.dart';
 import '../util/colors.dart' as appColors;
+import '../widgets/place_widget.dart';
 
-class PermissionsView extends StatefulWidget {
-  const PermissionsView({Key? key}) : super(key: key);
+class PlacesView extends StatefulWidget {
+  const PlacesView({Key? key}) : super(key: key);
 
   @override
-  _PermissionsViewState createState() => _PermissionsViewState();
+  _PlacesViewState createState() => _PlacesViewState();
 }
 
-class _PermissionsViewState extends State<PermissionsView> {
+class _PlacesViewState extends State<PlacesView> {
   AuthHelper _helper = new AuthHelper();
-  List<PermissionModel> data = [];
+  List<PlacesModel> data = [];
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +37,10 @@ class _PermissionsViewState extends State<PermissionsView> {
                     : ListView.builder(
                         itemCount: data.length,
                         itemBuilder: (context, index) {
-                          return PermissionWidget(
-                              place: data.elementAt(index).getPlace(),
-                              guest: data.elementAt(index).getGuest(),
-                              days: data.elementAt(index).getDay(),
-                              hours: data.elementAt(index).getHour());
+                          return PlaceWidget(
+                              name: data.elementAt(index).getName(),
+                              occupation:
+                                  data.elementAt(index).getOccupation());
                         },
                       );
               })),
@@ -49,7 +48,7 @@ class _PermissionsViewState extends State<PermissionsView> {
   }
 
   Future<bool> _getData() async {
-    this.data = await _helper.permissionInfo();
+    this.data = await _helper.placesInfo();
     return true;
   }
 

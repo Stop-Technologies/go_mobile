@@ -1,7 +1,11 @@
-// Project imports
-import 'package:go_mobile/core/models/permissions_model.dart';
+// Flutter imports
+import 'dart:convert';
 
+// Project import
 import '../../services/backend_access/backend_service.dart';
+import '../models/permissions_model.dart';
+import '../models/places_model.dart';
+import '../models/users_model.dart';
 import '../token_manager.dart';
 
 // ignore: must_be_immutable
@@ -113,27 +117,33 @@ class AuthHelper {
   /// backend to display in the app
   /// * return the organiced list of PermissionModels to display
   Future<List<PermissionModel>> permissionInfo() async {
+    if (!await hasTokens()) return [];
+
     List<PermissionModel> data = [];
 
     await _backend.permissionsInfo(_tokens.userToken).then((value) async {
       if (value['statusCode'] as int != 200) return [];
 
+      List result = [], places = [], guests = [];
+
       // Get all permissions
-      List result = value['permissions'];
+      result = json.decode(value['permissions']);
 
       // Get all places
-      List places = await _backend.placesInfo(_tokens.userToken).then((value) {
+      places = json
+          .decode(await _backend.placesInfo(_tokens.userToken).then((value) {
         if (value['statusCode'] as int != 200) return [];
 
-        return value['place'];
-      });
+        return value['place'] as List<dynamic>;
+      }));
 
       // Get all guests
-      List guests = await _backend.guestsInfo(_tokens.userToken).then((value) {
+      guests = json
+          .decode(await _backend.guestsInfo(_tokens.userToken).then((value) {
         if (value['statusCode'] as int != 200) return [];
 
         return value['guest'];
-      });
+      }));
 
       // Save all permissions into data list
       for (dynamic index in result) {
@@ -156,6 +166,60 @@ class AuthHelper {
             finishingHour: index['end_time']));
       }
     });
+
+    return data;
+  }
+
+  /// Is an asyncronous function used to get the places data from the backend
+  /// service to display in the app
+  /// * return the organiced list of PlacesModel to display
+  Future<List<PlacesModel>> placesInfo() async {
+    if (!await hasTokens()) return [];
+
+    List<PlacesModel> data = [];
+    List places = [];
+
+    // Get all places
+    places =
+        json.decode(await _backend.placesInfo(_tokens.userToken).then((value) {
+      if (value['statusCode'] as int != 200) return [];
+
+      return value['place'];
+    }));
+
+    // Save all places into data list
+    for (dynamic index in places) {
+      String occupation = await _backend
+          .occupationInfo(_tokens.userToken, index['id'])
+          .then((value) {
+        if (value['statusCode'] as int == 200) return 0;
+
+        return value['currentUsers'];
+      });
+
+      data.add(new PlacesModel(name: index['name'], occupation: occupation));
+    }
+
+    return data;
+  }
+
+  Future<List<UsersModel>> usersInfo() async {
+    if (!await hasTokens()) return [];
+
+    List<UsersModel> data = [];
+    List response = [];
+
+    response =
+        json.decode(await _backend.usersInfo(_tokens.userToken).then((value) {
+      if (value['statusCode'] as int == 200) return [];
+
+      return value['users'];
+    }));
+
+    for (dynamic index in response) {
+      data.add(new UsersModel(
+          id: index['id'], name: index['name'], role: index['role']));
+    }
 
     return data;
   }

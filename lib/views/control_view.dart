@@ -1,7 +1,8 @@
 // Flutter imports
 import 'package:flutter/material.dart';
 import 'package:go_mobile/views/permissions_view.dart';
-import 'package:go_mobile/widgets/permission_widget.dart';
+import 'package:go_mobile/views/places_view.dart';
+import 'package:go_mobile/views/users_view.dart';
 
 // Project imports
 import '../util/colors.dart' as appColors;
@@ -73,14 +74,20 @@ class _ControlViewState extends State<ControlView> {
             ]));
   }
 
-  void _onPlacesPressed() {}
+  void _onPlacesPressed() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => PlacesView()));
+  }
 
   void _onPermissionsPressed() {
-    Navigator.pushReplacement(
+    Navigator.push(
         context, MaterialPageRoute(builder: (context) => PermissionsView()));
   }
 
   void _onGuestPressed() {}
 
-  void _onUsersPressed() {}
+  void _onUsersPressed() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => UsersView()));
+  }
 }
