@@ -29,12 +29,7 @@ class _PlacesViewState extends State<PlacesView> {
               future: _getData(),
               builder: (context, snapshot) {
                 return snapshot.hasData
-                    ? Center(
-                        child: LoadingBouncingGrid.square(
-                            backgroundColor: appColors.white,
-                            size: 120,
-                            duration: Duration(seconds: 2)))
-                    : ListView.builder(
+                    ? ListView.builder(
                         itemCount: data.length,
                         itemBuilder: (context, index) {
                           return PlaceWidget(
@@ -42,7 +37,12 @@ class _PlacesViewState extends State<PlacesView> {
                               occupation:
                                   data.elementAt(index).getOccupation());
                         },
-                      );
+                      )
+                    : Center(
+                        child: LoadingBouncingGrid.square(
+                            backgroundColor: appColors.white,
+                            size: 120,
+                            duration: Duration(seconds: 2)));
               })),
     );
   }

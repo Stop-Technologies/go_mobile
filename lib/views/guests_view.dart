@@ -3,21 +3,21 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:flutter/material.dart';
 
 // Project imports
-import '../core/models/permissions_model.dart';
-import '../widgets/permission_widget.dart';
+import '../core/models/users_model.dart';
 import '../core/helpers/Auth_helper.dart';
 import '../util/colors.dart' as appColors;
+import '../widgets/user_widget.dart';
 
-class PermissionsView extends StatefulWidget {
-  const PermissionsView({Key? key}) : super(key: key);
+class GuestsView extends StatefulWidget {
+  const GuestsView({Key? key}) : super(key: key);
 
   @override
-  _PermissionsViewState createState() => _PermissionsViewState();
+  _GuestsViewState createState() => _GuestsViewState();
 }
 
-class _PermissionsViewState extends State<PermissionsView> {
+class _GuestsViewState extends State<GuestsView> {
   AuthHelper _helper = new AuthHelper();
-  List<PermissionModel> data = [];
+  List<UsersModel> data = [];
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +32,10 @@ class _PermissionsViewState extends State<PermissionsView> {
                     ? ListView.builder(
                         itemCount: data.length,
                         itemBuilder: (context, index) {
-                          return PermissionWidget(
-                              place: data.elementAt(index).getPlace(),
-                              guest: data.elementAt(index).getGuest(),
-                              days: data.elementAt(index).getDay(),
-                              hours: data.elementAt(index).getHour());
+                          return UserWidget(
+                              id: data.elementAt(index).getId(),
+                              name: data.elementAt(index).getName(),
+                              role: data.elementAt(index).getRole());
                         },
                       )
                     : Center(
@@ -49,7 +48,7 @@ class _PermissionsViewState extends State<PermissionsView> {
   }
 
   Future<bool> _getData() async {
-    this.data = await _helper.permissionInfo();
+    this.data = await _helper.guestsInfo();
     return true;
   }
 

@@ -1,13 +1,12 @@
 // Flutter imports
-import 'package:go_mobile/widgets/user_widget.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:flutter/material.dart';
 
 // Project imports
-import '../core/models/users_model.dart';
 import '../core/helpers/Auth_helper.dart';
 import '../util/colors.dart' as appColors;
-import '../widgets/place_widget.dart';
+import '../core/models/users_model.dart';
+import '../widgets/user_widget.dart';
 
 class UsersView extends StatefulWidget {
   const UsersView({Key? key}) : super(key: key);
@@ -30,12 +29,7 @@ class _UsersViewState extends State<UsersView> {
               future: _getData(),
               builder: (context, snapshot) {
                 return snapshot.hasData
-                    ? Center(
-                        child: LoadingBouncingGrid.square(
-                            backgroundColor: appColors.white,
-                            size: 120,
-                            duration: Duration(seconds: 2)))
-                    : ListView.builder(
+                    ? ListView.builder(
                         itemCount: data.length,
                         itemBuilder: (context, index) {
                           return UserWidget(
@@ -43,7 +37,12 @@ class _UsersViewState extends State<UsersView> {
                               name: data.elementAt(index).getName(),
                               role: data.elementAt(index).getRole());
                         },
-                      );
+                      )
+                    : Center(
+                        child: LoadingBouncingGrid.square(
+                            backgroundColor: appColors.white,
+                            size: 120,
+                            duration: Duration(seconds: 2)));
               })),
     );
   }

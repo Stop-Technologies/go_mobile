@@ -86,7 +86,7 @@ class BackendService {
   /// get access to all guests data stored in the backend service
   /// * return the API response
   dynamic guestsInfo(String token) async {
-    return await http.makeGetRequest('permissions/access',
+    return await http.makeGetRequest('admin/guests',
         headers: {'Authorization': 'Bearer $token'});
   }
 

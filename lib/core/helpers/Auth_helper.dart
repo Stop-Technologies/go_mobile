@@ -120,52 +120,57 @@ class AuthHelper {
     if (!await hasTokens()) return [];
 
     List<PermissionModel> data = [];
+    List result = [], places = [], guests = [];
 
-    await _backend.permissionsInfo(_tokens.userToken).then((value) async {
+    // Get all permissions
+    await _backend.permissionsInfo(_tokens.userToken).then((value) {
       if (value['statusCode'] as int != 200) return [];
 
-      List result = [], places = [], guests = [];
-
-      // Get all permissions
-      result = json.decode(value['permissions']);
-
-      // Get all places
-      places = json
-          .decode(await _backend.placesInfo(_tokens.userToken).then((value) {
-        if (value['statusCode'] as int != 200) return [];
-
-        return value['place'] as List<dynamic>;
-      }));
-
-      // Get all guests
-      guests = json
-          .decode(await _backend.guestsInfo(_tokens.userToken).then((value) {
-        if (value['statusCode'] as int != 200) return [];
-
-        return value['guest'];
-      }));
-
-      // Save all permissions into data list
-      for (dynamic index in result) {
-        String place = "", guest = "";
-
-        for (dynamic dataIndex in places) {
-          if (dataIndex['id'] == index['place_id']) place = dataIndex['name'];
-        }
-
-        for (dynamic dataIndex in guests) {
-          if (dataIndex['id'] == index['guest_id']) place = dataIndex['name'];
-        }
-
-        data.add(new PermissionModel(
-            place: place,
-            guest: guest,
-            startingDay: index['start_day'],
-            finishingDay: index['end_day'],
-            startingHour: index['start_time'],
-            finishingHour: index['end_time']));
-      }
+      result = value['permissions'] as List;
     });
+
+    // Get all places
+    await _backend.placesInfo(_tokens.userToken).then((value) {
+      if (value['statusCode'] as int != 200) return null;
+
+      places = value['places'] as List;
+      return null;
+    });
+
+    // Get all guests
+    await _backend.guestsInfo(_tokens.userToken).then((value) {
+      if (value['statusCode'] as int != 200) return null;
+
+      guests = value['guests'] as List;
+      return null;
+    });
+
+    // Save all permissions into data list
+    for (dynamic index in result) {
+      String place = "", guest = "";
+
+      for (dynamic dataIndex in places) {
+        if (dataIndex['id'] == index['place_id']) {
+          place = dataIndex['name'];
+          break;
+        }
+      }
+
+      for (dynamic dataIndex in guests) {
+        if (dataIndex['id'] == index['guest_id']) {
+          guest = dataIndex['name'];
+          break;
+        }
+      }
+
+      data.add(new PermissionModel(
+          place: place,
+          guest: guest,
+          startingDay: '${index['start_day']}',
+          finishingDay: '${index['end_day']}',
+          startingHour: '${index['start_time']}',
+          finishingHour: '${index['end_time']}'));
+    }
 
     return data;
   }
@@ -180,21 +185,23 @@ class AuthHelper {
     List places = [];
 
     // Get all places
-    places =
-        json.decode(await _backend.placesInfo(_tokens.userToken).then((value) {
-      if (value['statusCode'] as int != 200) return [];
+    await _backend.placesInfo(_tokens.userToken).then((value) {
+      if (value['statusCode'] as int != 200) return null;
 
-      return value['place'];
-    }));
+      places = value['places'] as List;
+      return null;
+    });
 
     // Save all places into data list
     for (dynamic index in places) {
-      String occupation = await _backend
+      String occupation = '5';
+
+      await _backend
           .occupationInfo(_tokens.userToken, index['id'])
           .then((value) {
-        if (value['statusCode'] as int == 200) return 0;
+        if (value['statusCode'] as int != 200) return null;
 
-        return value['currentUsers'];
+        return occupation = value['currentUsers'];
       });
 
       data.add(new PlacesModel(name: index['name'], occupation: occupation));
@@ -203,22 +210,49 @@ class AuthHelper {
     return data;
   }
 
+  /// Is an asyncronous function used to get the users data from the backend
+  /// service to display in the app
+  /// * return the organiced list of UsersModel to display
   Future<List<UsersModel>> usersInfo() async {
     if (!await hasTokens()) return [];
 
     List<UsersModel> data = [];
     List response = [];
 
-    response =
-        json.decode(await _backend.usersInfo(_tokens.userToken).then((value) {
-      if (value['statusCode'] as int == 200) return [];
+    await _backend.usersInfo(_tokens.userToken).then((value) {
+      if (value['statusCode'] as int != 200) return null;
 
-      return value['users'];
-    }));
+      response = value['users'] as List;
+      return null;
+    });
 
     for (dynamic index in response) {
       data.add(new UsersModel(
           id: index['id'], name: index['name'], role: index['role']));
+    }
+
+    return data;
+  }
+
+  /// Is an asyncronous function used to get the guests data from the backend
+  /// service to display in the app
+  /// * return the organiced list of UsersModel to display
+  Future<List<UsersModel>> guestsInfo() async {
+    if (!await hasTokens()) return [];
+
+    List<UsersModel> data = [];
+    List response = [];
+
+    await _backend.guestsInfo(_tokens.userToken).then((value) {
+      if (value['statusCode'] as int != 200) return null;
+
+      response = value['guests'] as List;
+      return null;
+    });
+
+    for (dynamic index in response) {
+      data.add(
+          new UsersModel(id: index['id'], name: index['name'], role: 'guest'));
     }
 
     return data;

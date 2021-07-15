@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// The class PermissionModel contains the data needed for the permission form
 class PermissionModel {
   late String _place,
@@ -8,16 +10,16 @@ class PermissionModel {
       _finishingHour;
 
   PermissionModel(
-      {required place,
-      required guest,
-      required startingDay,
-      required finishingDay,
-      required startingHour,
-      required finishingHour}) {
+      {required String place,
+      required String guest,
+      required String startingDay,
+      required String finishingDay,
+      required String startingHour,
+      required String finishingHour}) {
     this._place = place;
     this._guest = guest;
-    this._startingDay = startingDay;
-    this._finishingDay = finishingDay;
+    this._startingDay = _convertToWeekDay(startingDay);
+    this._finishingDay = _convertToWeekDay(finishingDay);
     this._startingHour = startingHour;
     this._finishingHour = finishingHour;
   }
@@ -47,5 +49,32 @@ class PermissionModel {
   /// * return the hour lapse
   String getHour() {
     return '${this._startingHour} » ${this._finishingHour}';
+  }
+
+  String _convertToWeekDay(String value) {
+    switch (value) {
+      case '1':
+        return 'Lunes';
+      case '2':
+        return 'Martes';
+
+      case '3':
+        return 'Miercoles';
+
+      case '4':
+        return 'Jueves';
+
+      case '5':
+        return 'Viernes';
+
+      case '6':
+        return 'Sabado';
+
+      case '7':
+        return 'Domingo';
+
+      default:
+        return value;
+    }
   }
 }
