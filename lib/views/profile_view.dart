@@ -1,9 +1,9 @@
 // Flutter imports
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_mobile/widgets/profile_data_widget.dart';
+import 'package:flutter/material.dart';
 
 // Project imports
+import '../widgets/profile_data_widget.dart';
 import '../util/colors.dart' as appColors;
 import '../util/icons.dart' as appIcons;
 
@@ -87,10 +87,13 @@ class _ProfileViewState extends State<ProfileView> {
     });
   }
 
+  /// The private function _setValues is used to set the [_backgroundColor]
   void _setValues() {
     this._backgroundColor = appColors.lightBlue;
   }
 
+  /// The private function _onBackArrowPressed is used to pop the widget from
+  /// the navigator
   Future<bool> _onBackArrowPressed() {
     Navigator.pop(context);
     return Future(() => false);

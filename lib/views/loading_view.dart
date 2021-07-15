@@ -1,6 +1,6 @@
 // Flutter imports
-import 'package:flutter/material.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:flutter/material.dart';
 
 // Project imports
 import '../widgets/navigation_bar_widget.dart';
@@ -20,13 +20,16 @@ class _LoadingViewState extends State<LoadingView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-        future: checkLogged(),
+        future: _checkLogged(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          return snapshot.hasData ? loadingAnimation() : loadingAnimation();
+          return snapshot.hasData ? _loadingAnimation() : _loadingAnimation();
         });
   }
 
-  Widget loadingAnimation() {
+  /// The private function _loadingAnimation is used to display a loding
+  /// animation where needed
+  /// * return a loading animation widget
+  Widget _loadingAnimation() {
     return Material(
         color: appColors.lightBlue,
         child: LoadingBouncingGrid.square(
@@ -35,38 +38,49 @@ class _LoadingViewState extends State<LoadingView> {
             duration: Duration(seconds: 2)));
   }
 
-  Future<bool> checkLogged() async {
+  /// The private function _checkLogged is used to check if a user is
+  /// successfully logged
+  /// * return false if a user isn't logged or there is not valid refresh token
+  Future<bool> _checkLogged() async {
     bool tokens = await helper.hasTokens(),
         usrInfo = await helper.profileInfo();
 
+    // Check if logged and valid tokens
     if (tokens && usrInfo) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  NavigationBar(id: helper.id, name: helper.name)));
+      if (helper.role == 'admin') {
+        _navigateToHome(true);
+      } else {
+        _navigateToHome(false);
+      }
       return true;
     }
 
+    // Try to refresh the access tokens if is logged
     if (tokens && !usrInfo) {
       helper.refreshToken();
-      return await helper.profileInfo().then((value) async {
-        if (value) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      NavigationBar(id: helper.id, name: helper.name)));
-          return true;
-        }
+      bool value = await helper.profileInfo().then((value) => value);
 
-        await helper.removeTokens();
-        Navigator.pushReplacementNamed(context, '/login');
-        return false;
-      });
+      if (value) {
+        if (helper.role == 'admin') {
+          _navigateToHome(true);
+        } else {
+          _navigateToHome(false);
+        }
+        return true;
+      }
+
+      await helper.removeTokens();
     }
 
     Navigator.pushReplacementNamed(context, '/login');
     return false;
+  }
+
+  void _navigateToHome(bool admin) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                NavigationBar(id: helper.id, name: helper.name, admin: admin)));
   }
 }

@@ -1,10 +1,10 @@
 // Flutter imports
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'package:go_mobile/widgets/nft_reading_widget.dart';
+import 'package:flutter/material.dart';
 
 // Project imports
+import '../widgets/nft_reading_widget.dart';
 import '../util/colors.dart' as appColors;
 import '../util/icons.dart' as appIcons;
 
@@ -38,7 +38,7 @@ class _NFCViewState extends State<NFCView> with SingleTickerProviderStateMixin {
       alignment: AlignmentDirectional.center,
       children: <Widget>[
         Container(
-          decoration: BoxDecoration(color: appColors.darkBlue),
+          decoration: BoxDecoration(color: appColors.lightBlue),
         ),
         Positioned(
           top: 30,
@@ -52,8 +52,8 @@ class _NFCViewState extends State<NFCView> with SingleTickerProviderStateMixin {
           Container(
             margin: EdgeInsets.all(10),
             child: Icon(
-              Icons.warning,
-              color: Colors.white,
+              appIcons.warningIcon,
+              color: appColors.white,
               size: 150,
             ),
           ),

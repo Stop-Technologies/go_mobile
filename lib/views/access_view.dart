@@ -1,9 +1,9 @@
 // Flutter imports
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_mobile/widgets/autorize_data_widget.dart';
+import 'package:flutter/material.dart';
 
 // Project imports
+import '../widgets/autorize_data_widget.dart';
 import '../util/colors.dart' as appColors;
 import '../util/icons.dart' as appIcons;
 
@@ -95,6 +95,8 @@ class _AccessViewState extends State<AccessView> {
     });
   }
 
+  /// The private function _setValues is used to change the [_backgroundColor]
+  /// based in the [_access] value
   void _setValues() {
     if (this._access)
       this._backgroundColor = appColors.green;
@@ -102,6 +104,8 @@ class _AccessViewState extends State<AccessView> {
       this._backgroundColor = appColors.red;
   }
 
+  /// The private function _onBackArrowPressed is used to pop the widget from
+  /// the navigator
   Future<bool> _onBackArrowPressed() {
     Navigator.pop(context);
     return Future(() => false);

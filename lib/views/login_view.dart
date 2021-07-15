@@ -1,6 +1,6 @@
 // Flutter imports
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 
 // Project imports
 import '../widgets/navigation_bar_widget.dart';
@@ -80,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
                     color: appColors.darkBlue,
                     borderRadius: BorderRadius.circular(20)),
                 child: TextButton(
-                  onPressed: () => onLoginButtonPressed(context),
+                  onPressed: () => _onLoginButtonPressed(context),
                   child: Text(
                     'Log In',
                     style: TextStyle(color: appColors.white, fontSize: 25),
@@ -91,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
               Container(
                 child: TextButton(
                   onPressed: () {
-                    errorPopup('Esta función no está implementada de momento');
+                    _errorPopup('Esta función no está implementada de momento');
                   },
                   child: Text(
                     'Forgot Password',
@@ -106,33 +106,47 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void onLoginButtonPressed(BuildContext context) async {
+  /// Is an asyncronous private function used to try to log in to the backend
+  /// sevice
+  void _onLoginButtonPressed(BuildContext context) async {
     bool login = await helper
         .logIn(idController.text, passwordController.text)
         .then((value) => value);
 
+    // Check if log in was successful
     if (!login) {
       idController.text = "";
       passwordController.text = "";
-      errorPopup('Algun dato ingresado es incorrecto');
+      _errorPopup('Algun dato ingresado es incorrecto');
       return;
     }
 
     bool info = await helper.profileInfo().then((value) => value);
 
+    // Check if user data is available
     if (!info) {
-      errorPopup('La respuesta del servidor no fue posible');
+      _errorPopup('La respuesta del servidor no fue posible');
       return;
     }
 
+    // Check if is admin
+    if (helper.role == 'admin')
+      _navigateToHome(true);
+    else
+      _navigateToHome(false);
+  }
+
+  void _navigateToHome(bool admin) {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                NavigationBar(id: helper.id, name: helper.name)));
+                NavigationBar(id: helper.id, name: helper.name, admin: admin)));
   }
 
-  void errorPopup(String message) {
+  /// The private function _errorPopup is used to display an alert dialog when an
+  /// error ocurrs
+  void _errorPopup(String message) {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
