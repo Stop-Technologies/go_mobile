@@ -106,13 +106,102 @@ class BackendService {
     return await http.makeGetRequest('admin/users',
         headers: {'Authorization': 'Bearer $token'});
   }
+
+  dynamic updateUser(String token, String id, String newId, String newName,
+      String newRole, String newPlace) async {
+    return await http.makePutRequest('admin/users/$id',
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'user': {
+            'id': newId,
+            'name': newName,
+            'role': newRole,
+            'place_id': newPlace
+          }
+        }));
+  }
+
+  dynamic createUser(
+      String token, String id, String name, String role, String placeId) async {
+    return await http.makePostRequest('admin/users',
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'user': {'id': id, 'name': name, 'role': role, 'place_id': placeId}
+        }));
+  }
+
+  dynamic updateGuest(
+      String token, String id, String newId, String newName) async {
+    return await http.makePutRequest('admin/guests/$id',
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'guest': {'id': newId, 'name': newName}
+        }));
+  }
+
+  dynamic createGuest(String token, String id, String name) async {
+    return await http.makePostRequest('admin/guests',
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'guest': {'id': id, 'name': name}
+        }));
+  }
+
+  dynamic deleteGuest(String token, String id) async {
+    return await http.makeDeleteRequest('admin/guests/$id',
+        headers: {'Authorization': 'Bearer $token'});
+  }
+
+  dynamic deleteUser(String token, String id) async {
+    return await http.makeDeleteRequest('admin/users/$id',
+        headers: {'Authorization': 'Bearer $token'});
+  }
+
+  dynamic deletePlace(String token, String id) async {
+    return await http.makeDeleteRequest('admin/places/$id',
+        headers: {'Authorization': 'Bearer $token'});
+  }
+
+  dynamic createPlace(String token, String name) async {
+    return await http.makePostRequest('admin/places',
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'place': {'name': name}
+        }));
+  }
+
+  dynamic updatePlace(String token, String id, String name) async {
+    return await http.makePutRequest('admin/places/$id',
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'place': {'name': name}
+        }));
+  }
 }
 
 /// The private class _HttpRequests is used to communicate with the API endpoints
 /// to send querys and get data from the backend service
 class _HttpRequests {
   //TODO: Use environment variables or configuration files.
-  String urlBase = 'http://192.168.0.153:3000/';
+  String urlBase = 'http://192.168.0.18:3000/';
 
   /// Is an asyncronous function used to generate a post request to the API
   /// endpoints with a given route, body and headers
@@ -145,7 +234,7 @@ class _HttpRequests {
   /// * return the API response
   dynamic makePutRequest(route, {body, headers}) async {
     var uri = Uri.parse(urlBase + route);
-    var response = await http.put(uri, body: body, headers: headers);
+    var response = await http.put(uri, headers: headers, body: body);
     var returnValue = jsonDecode(response.body);
 
     returnValue['statusCode'] = response.statusCode;
@@ -158,7 +247,7 @@ class _HttpRequests {
   /// * return the API response
   dynamic makeDeleteRequest(route, {body, headers}) async {
     var uri = Uri.parse(urlBase + route);
-    var response = await http.delete(uri, body: body, headers: headers);
+    var response = await http.delete(uri, headers: headers, body: body);
     var returnValue = jsonDecode(response.body);
 
     returnValue['statusCode'] = response.statusCode;

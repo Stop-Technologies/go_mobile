@@ -1,6 +1,6 @@
 // Flutter imports
 import 'package:flutter/material.dart';
-import 'package:go_mobile/views/control_view.dart';
+import '../views/admin_views/control_view.dart';
 
 // Project imports
 import '../core/helpers/Auth_helper.dart';

@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 
 // Project imports
-import '../util/colors.dart' as appColors;
-import '../views/permissions_view.dart';
-import '../views/guests_view.dart';
-import '../views/places_view.dart';
-import '../views/users_view.dart';
+import '../../util/colors.dart' as appColors;
+import 'permissions_view.dart';
+import 'guests_view.dart';
+import 'places_view.dart';
+import 'users_view.dart';
 
 class ControlView extends StatefulWidget {
   const ControlView({Key? key}) : super(key: key);

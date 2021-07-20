@@ -12,3 +12,5 @@ const nfcBarIcon = Icons.nfc_rounded;
 const settingsBarIcon = Icons.settings;
 const warningIcon = Icons.warning;
 const controlBarIcon = Icons.account_tree_rounded;
+const addValue = Icons.add;
+const removeValue = Icons.delete_forever;

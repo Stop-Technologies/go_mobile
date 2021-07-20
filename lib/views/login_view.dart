@@ -115,7 +115,6 @@ class _LoginViewState extends State<LoginView> {
 
     // Check if log in was successful
     if (!login) {
-      idController.text = "";
       passwordController.text = "";
       _errorPopup('Algun dato ingresado es incorrecto');
       return;

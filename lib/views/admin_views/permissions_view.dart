@@ -3,10 +3,10 @@ import 'package:loading_animations/loading_animations.dart';
 import 'package:flutter/material.dart';
 
 // Project imports
-import '../core/models/permissions_model.dart';
-import '../widgets/permission_widget.dart';
-import '../core/helpers/Auth_helper.dart';
-import '../util/colors.dart' as appColors;
+import '../../core/models/permissions_model.dart';
+import '../../widgets/admin_widgets/permission_widget.dart';
+import '../../core/helpers/Auth_helper.dart';
+import '../../util/colors.dart' as appColors;
 
 class PermissionsView extends StatefulWidget {
   const PermissionsView({Key? key}) : super(key: key);
