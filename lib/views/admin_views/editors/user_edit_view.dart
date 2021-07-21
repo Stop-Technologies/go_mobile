@@ -8,7 +8,7 @@ import '../../../util/icons.dart' as appIcons;
 
 // ignore: must_be_immutable
 class UserEditView extends StatefulWidget {
-  String? id, name, role, place_id;
+  String? id, name, role, placeId;
   bool isNew, blockRole, havePlace;
 
   UserEditView(
@@ -16,7 +16,7 @@ class UserEditView extends StatefulWidget {
       this.id,
       this.name,
       this.role,
-      this.place_id,
+      this.placeId,
       this.isNew = false,
       this.blockRole = false,
       this.havePlace = false})
@@ -27,7 +27,7 @@ class UserEditView extends StatefulWidget {
       id: this.id,
       name: this.name,
       role: this.role,
-      place_id: this.place_id,
+      placeId: this.placeId,
       isNew: this.isNew,
       blockRole: this.blockRole,
       havePlace: this.havePlace);
@@ -35,36 +35,33 @@ class UserEditView extends StatefulWidget {
 
 class _UserEditViewState extends State<UserEditView> {
   AuthHelper helper = new AuthHelper();
-  List<DropdownMenuItem> places = [];
+  List<DropdownMenuItem<String>> places = [];
   TextEditingController idController = new TextEditingController(),
       nameController = new TextEditingController(),
       roleController = new TextEditingController(),
-      placeController = new TextEditingController();
-  String? id, name, role, place_id;
+      placeController = new TextEditingController(),
+      passwordController = new TextEditingController();
+  String? id, name, role, placeId;
   late String buttonName;
   bool isNew, blockRole, havePlace;
   Color blockColor = appColors.white;
+  var currentValue;
 
   _UserEditViewState(
       {this.id,
       this.name,
       this.role,
-      this.place_id,
+      this.placeId,
       this.isNew = false,
       this.blockRole = false,
       this.havePlace = false}) {
     if (this.id != null) this.idController.text = this.id!;
     if (this.name != null) this.nameController.text = this.name!;
     if (this.role != null) this.roleController.text = this.role!;
-    if (this.place_id != null) this.placeController.text = this.place_id!;
-  }
-
-  @override
-  void initState() {
+    if (this.placeId != null) this.placeController.text = this.placeId!;
+    currentValue = this.placeId;
     _selectButtonName();
     _selectRoleColor();
-    _initPlaces();
-    super.initState();
   }
 
   @override
@@ -81,80 +78,89 @@ class _UserEditViewState extends State<UserEditView> {
         child: Material(
             color: appColors.lightBlue,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: appColors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: TextField(
-                            controller: idController,
-                            style: TextStyle(color: appColors.textColor),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                labelText: 'Card ID',
-                                hintText: 'Enter the Card ID')),
-                      ),
-                    ),
-                    Container(
-                      color: appColors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: TextField(
-                            controller: nameController,
-                            style: TextStyle(color: appColors.textColor),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                labelText: 'Name',
-                                hintText: 'Enter the Name')),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: blockColor,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15))),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: TextField(
-                            enabled: !blockRole,
-                            controller: roleController,
-                            style: TextStyle(color: appColors.textColor),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                labelText: 'Role',
-                                hintText: 'Enter the Role')),
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    _setPlace(havePlace),
-                    Container(
-                      height: 50,
-                      width: 250,
-                      decoration: BoxDecoration(
-                          color: appColors.darkBlue,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: TextButton(
-                        onPressed: _onButtonPressed,
-                        child: Text(
-                          buttonName,
-                          style:
-                              TextStyle(color: appColors.white, fontSize: 25),
-                        ),
-                      ),
-                    )
-                  ]),
-            )),
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                child: LayoutBuilder(builder: (context, constraints) {
+                  return constraints.maxHeight > 386
+                      ? _options()
+                      : SingleChildScrollView(child: _options());
+                }))),
       ),
     );
+  }
+
+  Widget _options() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                color: appColors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15))),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              child: TextField(
+                  controller: idController,
+                  style: TextStyle(color: appColors.textColor),
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      labelText: 'Card ID',
+                      hintText: 'Enter the Card ID')),
+            ),
+          ),
+          Container(
+            color: appColors.white,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              child: TextField(
+                  controller: nameController,
+                  style: TextStyle(color: appColors.textColor),
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      labelText: 'Name',
+                      hintText: 'Enter the Name')),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                color: blockColor,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15))),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              child: TextField(
+                  enabled: !blockRole,
+                  controller: roleController,
+                  style: TextStyle(color: appColors.textColor),
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      labelText: 'Role',
+                      hintText: 'Enter the Role')),
+            ),
+          ),
+          SizedBox(height: 30),
+          _setPlace(havePlace),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+            child: Container(
+              height: 50,
+              width: 250,
+              decoration: BoxDecoration(
+                  color: appColors.darkBlue,
+                  borderRadius: BorderRadius.circular(20)),
+              child: TextButton(
+                onPressed: _onButtonPressed,
+                child: Text(
+                  buttonName,
+                  style: TextStyle(color: appColors.white, fontSize: 25),
+                ),
+              ),
+            ),
+          )
+        ]);
   }
 
   Future<bool> _onBackButtonPressed() async {
@@ -191,7 +197,7 @@ class _UserEditViewState extends State<UserEditView> {
     }
 
     operation = await helper.updateUser(this.id!, idController.text,
-        nameController.text, roleController.text, placeController.text);
+        nameController.text, roleController.text, currentValue);
     if (operation)
       _messagePopup('Correcto', 'Datos de usuario actualizados correctamente');
   }
@@ -271,30 +277,63 @@ class _UserEditViewState extends State<UserEditView> {
 
   Widget _setPlace(bool havePlace) {
     if (havePlace)
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-        child: Container(
-            decoration: BoxDecoration(
-                color: blockColor,
-                borderRadius: BorderRadius.all(Radius.circular(15))),
-            child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                child: DropdownButton(items: places, value: this.place_id))),
-      );
+      return FutureBuilder(
+          future: _initPlaces(),
+          builder: (context, AsyncSnapshot<bool> snapshot) => snapshot.hasData
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: blockColor,
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: Column(
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                              child: DropdownButton<String>(
+                                  hint: Text('Seleccione un lugar'),
+                                  isExpanded: true,
+                                  items: places,
+                                  value: currentValue,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      this.currentValue = newValue;
+                                    });
+                                  })),
+                          _setPassword()
+                        ],
+                      )),
+                )
+              : SizedBox(height: 0));
 
     return SizedBox(height: 0);
   }
 
-  void _initPlaces() async {
+  Widget _setPassword() {
+    return isNew
+        ? Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
+            child: TextField(
+                controller: passwordController,
+                obscureText: true,
+                style: TextStyle(color: appColors.textColor),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Password',
+                    hintText: 'Enter the password')))
+        : SizedBox(height: 0);
+  }
+
+  Future<bool> _initPlaces() async {
+    places.clear();
+
     await helper.placesInfo().then((value) {
       value.forEach((element) {
-        print('${element.getName()} - ${element.getId()}');
-        places.add(DropdownMenuItem(
+        places.add(DropdownMenuItem<String>(
             child: Text(element.getName()), value: element.getId()));
-
-        print(places.elementAt(0).value);
-        print(this.place_id);
       });
     });
+
+    return true;
   }
 }

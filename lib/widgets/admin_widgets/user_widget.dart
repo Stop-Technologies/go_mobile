@@ -1,7 +1,6 @@
 // Fluter imports
 import 'package:flutter/material.dart';
 import 'package:go_mobile/core/helpers/Auth_helper.dart';
-import 'package:go_mobile/core/models/places_model.dart';
 import 'package:go_mobile/views/admin_views/editors/user_edit_view.dart';
 
 // Project imports
@@ -9,7 +8,7 @@ import '../../util/colors.dart' as appColors;
 
 // ignore: must_be_immutable
 class UserWidget extends StatefulWidget {
-  late String _id, _name, _role, _place_id, place;
+  late String _id, _name, _role, _placeId, place;
   bool havePlace, blockRole, isNew;
 
   UserWidget(
@@ -17,7 +16,7 @@ class UserWidget extends StatefulWidget {
       required String id,
       required String name,
       required String role,
-      String place_id = '0',
+      String placeId = '0',
       String place = '',
       this.havePlace = false,
       this.blockRole = false,
@@ -26,7 +25,7 @@ class UserWidget extends StatefulWidget {
     this._id = id;
     this._name = name;
     this._role = role;
-    this._place_id = place_id;
+    this._placeId = placeId;
     this.place = place;
   }
 
@@ -35,7 +34,7 @@ class UserWidget extends StatefulWidget {
       id: this._id,
       name: this._name,
       role: this._role,
-      place_id: this._place_id,
+      placeId: this._placeId,
       place: this.place,
       havePlace: this.havePlace,
       blockRole: this.blockRole,
@@ -43,7 +42,7 @@ class UserWidget extends StatefulWidget {
 }
 
 class _UserWidgetState extends State<UserWidget> {
-  String id, name, role, place_id, place;
+  String id, name, role, placeId, place;
   bool havePlace, blockRole, isNew;
   AuthHelper helper = new AuthHelper();
 
@@ -51,7 +50,7 @@ class _UserWidgetState extends State<UserWidget> {
       {required this.id,
       required this.name,
       required this.role,
-      this.place_id = '0',
+      this.placeId = '0',
       this.place = '',
       this.havePlace = false,
       this.blockRole = false,
@@ -135,7 +134,7 @@ class _UserWidgetState extends State<UserWidget> {
                 id: this.id,
                 name: this.name,
                 role: this.role,
-                place_id: this.place_id,
+                placeId: this.placeId,
                 havePlace: this.havePlace,
                 blockRole: this.blockRole,
                 isNew: this.isNew))).then((_) => setState(() {}));

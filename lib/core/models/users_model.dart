@@ -1,19 +1,19 @@
 /// The class UsersModel contains the data needed for the guest form
 class UsersModel {
   late String _name, _id, _role;
-  String? _place, _place_id;
+  String? _place, _placeId;
 
   UsersModel(
       {required String id,
       required String name,
       required String role,
       String? place,
-      String? place_id}) {
+      String? placeId}) {
     this._id = id;
     this._name = name;
     this._role = role;
     this._place = place;
-    this._place_id = place_id;
+    this._placeId = placeId;
   }
 
   /// The function getId return the user id
@@ -41,8 +41,8 @@ class UsersModel {
     return '';
   }
 
-  String getPalceId() {
-    if (this._place_id != null) return this._place_id!;
+  String getPlaceId() {
+    if (this._placeId != null) return this._placeId!;
     return '';
   }
 }

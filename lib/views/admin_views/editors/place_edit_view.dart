@@ -123,7 +123,6 @@ class _PlaceEditViewState extends State<PlaceEditView> {
 
     if (isNew) {
       operation = await helper.createPlace(nameController.text);
-      print(operation);
       if (operation)
         _messagePopup('Correcto', 'El lugar fue creado correctamente');
       return;
@@ -131,7 +130,7 @@ class _PlaceEditViewState extends State<PlaceEditView> {
 
     operation = await helper.updatePlace(this.id, nameController.text);
     if (operation)
-      _messagePopup('Correcto', 'El lugar fue creado correctamente');
+      _messagePopup('Correcto', 'El lugar fue actualizado correctamente');
   }
 
   void _deletePlace() {

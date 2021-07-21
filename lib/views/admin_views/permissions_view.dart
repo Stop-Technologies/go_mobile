@@ -7,6 +7,7 @@ import '../../core/models/permissions_model.dart';
 import '../../widgets/admin_widgets/permission_widget.dart';
 import '../../core/helpers/Auth_helper.dart';
 import '../../util/colors.dart' as appColors;
+import '../../util/icons.dart' as appIcons;
 
 class PermissionsView extends StatefulWidget {
   const PermissionsView({Key? key}) : super(key: key);
@@ -21,30 +22,36 @@ class _PermissionsViewState extends State<PermissionsView> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _backArrowPressed,
-      child: Material(
-          color: appColors.lightBlue,
-          child: FutureBuilder(
-              future: _getData(),
-              builder: (context, snapshot) {
-                return snapshot.hasData
-                    ? ListView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return PermissionWidget(
-                              place: data.elementAt(index).getPlace(),
-                              guest: data.elementAt(index).getGuest(),
-                              days: data.elementAt(index).getDay(),
-                              hours: data.elementAt(index).getHour());
-                        },
-                      )
-                    : Center(
-                        child: LoadingBouncingGrid.square(
-                            backgroundColor: appColors.white,
-                            size: 120,
-                            duration: Duration(seconds: 2)));
-              })),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: _newPermission,
+          backgroundColor: appColors.darkBlue,
+          child: Icon(appIcons.addValue)),
+      body: WillPopScope(
+        onWillPop: _backArrowPressed,
+        child: Material(
+            color: appColors.lightBlue,
+            child: FutureBuilder(
+                future: _getData(),
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? ListView.builder(
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            return PermissionWidget(
+                                place: data.elementAt(index).getPlace(),
+                                guest: data.elementAt(index).getGuest(),
+                                days: data.elementAt(index).getDay(),
+                                hours: data.elementAt(index).getHour());
+                          },
+                        )
+                      : Center(
+                          child: LoadingBouncingGrid.square(
+                              backgroundColor: appColors.white,
+                              size: 120,
+                              duration: Duration(seconds: 2)));
+                })),
+      ),
     );
   }
 
@@ -57,4 +64,6 @@ class _PermissionsViewState extends State<PermissionsView> {
     Navigator.pop(context);
     return Future(() => false);
   }
+
+  void _newPermission() {}
 }

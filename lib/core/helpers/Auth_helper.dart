@@ -244,9 +244,7 @@ class AuthHelper {
           name: index['name'],
           role: index['role'],
           place: place,
-          place_id: index['place_id'].toString()));
-
-      print(index['place_id'].toString() + '<==');
+          placeId: index['place_id'].toString()));
     }
 
     return data;

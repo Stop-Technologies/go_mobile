@@ -44,6 +44,7 @@ class _UsersViewState extends State<UsersView> {
                                 name: data.elementAt(index).getName(),
                                 role: data.elementAt(index).getRole(),
                                 place: data.elementAt(index).getPlace(),
+                                placeId: data.elementAt(index).getPlaceId(),
                                 havePlace: true);
                           },
                         )
