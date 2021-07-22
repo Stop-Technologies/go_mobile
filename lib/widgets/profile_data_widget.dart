@@ -85,7 +85,7 @@ class _ProfileDataState extends State<ProfileData> {
                               height: 50,
                               width: 100,
                               decoration: BoxDecoration(
-                                  color: appColors.orange,
+                                  color: appColors.darkBlue,
                                   borderRadius: BorderRadius.circular(20)),
                               child: TextButton(
                                 onPressed: _onLogoutButtonPressed,

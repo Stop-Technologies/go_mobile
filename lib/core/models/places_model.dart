@@ -1,8 +1,10 @@
 /// The class PlacesModel contains the data needed for the places form
 class PlacesModel {
-  late String _name, _occupation;
+  late String _id, _name, _occupation;
 
-  PlacesModel({required String name, required String occupation}) {
+  PlacesModel(
+      {required String id, required String name, required String occupation}) {
+    this._id = id;
     this._name = name;
     this._occupation = occupation;
   }
@@ -11,6 +13,12 @@ class PlacesModel {
   /// * return the place name
   String getName() {
     return this._name;
+  }
+
+  /// The function getId return the store place id
+  /// * return the palce id
+  String getId() {
+    return this._id;
   }
 
   /// The function getOccupation return the stored place occupation

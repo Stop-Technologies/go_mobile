@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-
 /// The class PermissionModel contains the data needed for the permission form
 class PermissionModel {
-  late String _place,
+  late String _id,
+      _placeId,
+      _place,
+      _guestId,
       _guest,
       _startingDay,
       _finishingDay,
@@ -10,13 +11,19 @@ class PermissionModel {
       _finishingHour;
 
   PermissionModel(
-      {required String place,
+      {required String id,
+      required String placeId,
+      required String place,
+      required String guestId,
       required String guest,
       required String startingDay,
       required String finishingDay,
       required String startingHour,
       required String finishingHour}) {
+    this._id = id;
+    this._placeId = placeId;
     this._place = place;
+    this._guestId = guestId;
     this._guest = guest;
     this._startingDay = _convertToWeekDay(startingDay);
     this._finishingDay = _convertToWeekDay(finishingDay);
@@ -24,10 +31,28 @@ class PermissionModel {
     this._finishingHour = finishingHour;
   }
 
+  /// The function getId return the permission id
+  /// * return the permission id
+  String getId() {
+    return this._id;
+  }
+
+  /// The function getPlaceId return the permission place id
+  /// * return the place id
+  String getPlaceId() {
+    return this._placeId;
+  }
+
   /// The function getPlace return the permission place
   /// * return the place name
   String getPlace() {
     return this._place;
+  }
+
+  /// The function getGuestId return the permission guest id
+  /// * return the guest id
+  String getGuestId() {
+    return this._guestId;
   }
 
   /// The function getGuest return the guest name of the permission

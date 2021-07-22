@@ -36,7 +36,7 @@ class SettingsView extends StatelessWidget {
         Positioned(
           bottom: 30,
           child: Text(
-            'Version 1.0',
+            'Version 1.2',
             style: TextStyle(color: appColors.white, fontSize: 40),
           ),
         ),
