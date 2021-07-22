@@ -139,9 +139,9 @@ class _PlaceEditViewState extends State<PlaceEditView> {
 
   void _selectButtonName() {
     if (isNew)
-      this.buttonName = 'Create';
+      this.buttonName = 'Crear';
     else
-      this.buttonName = 'Update';
+      this.buttonName = 'Actualizar';
   }
 
   /// The private function _messagePopup is used to display an alert dialog when an

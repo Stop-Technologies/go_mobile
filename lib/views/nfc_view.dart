@@ -62,7 +62,7 @@ class _NFCViewState extends State<NFCView> with SingleTickerProviderStateMixin {
           bottom: 30,
           child: Text(
             'NFC sensor not found',
-            style: TextStyle(color: appColors.white, fontSize: 40),
+            style: TextStyle(color: appColors.white, fontSize: 30),
           ),
         ),
       ],

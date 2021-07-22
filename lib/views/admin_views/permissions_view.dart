@@ -1,4 +1,5 @@
 // Flutter imports
+import 'package:go_mobile/views/admin_views/editors/permission_edit_view.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +40,10 @@ class _PermissionsViewState extends State<PermissionsView> {
                           itemCount: data.length,
                           itemBuilder: (context, index) {
                             return PermissionWidget(
+                                id: data.elementAt(index).getId(),
+                                placeId: data.elementAt(index).getPlaceId(),
                                 place: data.elementAt(index).getPlace(),
+                                guestId: data.elementAt(index).getGuestId(),
                                 guest: data.elementAt(index).getGuest(),
                                 days: data.elementAt(index).getDay(),
                                 hours: data.elementAt(index).getHour());
@@ -65,5 +69,9 @@ class _PermissionsViewState extends State<PermissionsView> {
     return Future(() => false);
   }
 
-  void _newPermission() {}
+  void _newPermission() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return PermissionEditView(isNew: true);
+    })).then((_) => setState(() {}));
+  }
 }

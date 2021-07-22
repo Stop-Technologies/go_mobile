@@ -35,7 +35,8 @@ class UserEditView extends StatefulWidget {
 
 class _UserEditViewState extends State<UserEditView> {
   AuthHelper helper = new AuthHelper();
-  List<DropdownMenuItem<String>> places = [];
+  List<DropdownMenuItem<String>> places = [], roles = [];
+  List<String> rolesNames = ['admin', 'moderator', 'guest'];
   TextEditingController idController = new TextEditingController(),
       nameController = new TextEditingController(),
       roleController = new TextEditingController(),
@@ -45,7 +46,7 @@ class _UserEditViewState extends State<UserEditView> {
   late String buttonName;
   bool isNew, blockRole, havePlace;
   Color blockColor = appColors.white;
-  var currentValue;
+  String? currentValue, roleValue;
 
   _UserEditViewState(
       {this.id,
@@ -57,7 +58,7 @@ class _UserEditViewState extends State<UserEditView> {
       this.havePlace = false}) {
     if (this.id != null) this.idController.text = this.id!;
     if (this.name != null) this.nameController.text = this.name!;
-    if (this.role != null) this.roleController.text = this.role!;
+    if (this.role != null) this.roleValue = this.role!;
     if (this.placeId != null) this.placeController.text = this.placeId!;
     currentValue = this.placeId;
     _selectButtonName();
@@ -79,88 +80,64 @@ class _UserEditViewState extends State<UserEditView> {
             color: appColors.lightBlue,
             child: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-                child: LayoutBuilder(builder: (context, constraints) {
-                  return constraints.maxHeight > 386
-                      ? _options()
-                      : SingleChildScrollView(child: _options());
-                }))),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: appColors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15))),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          child: TextField(
+                              controller: idController,
+                              style: TextStyle(color: appColors.textColor),
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  labelText: 'Card ID',
+                                  hintText: 'Enter the Card ID')),
+                        ),
+                      ),
+                      Container(
+                        color: appColors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          child: TextField(
+                              controller: nameController,
+                              style: TextStyle(color: appColors.textColor),
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  labelText: 'Name',
+                                  hintText: 'Enter the Name')),
+                        ),
+                      ),
+                      _setRole(),
+                      SizedBox(height: 12),
+                      _setPlace(havePlace),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                        child: Container(
+                          height: 50,
+                          width: 250,
+                          decoration: BoxDecoration(
+                              color: appColors.darkBlue,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: TextButton(
+                            onPressed: _onButtonPressed,
+                            child: Text(
+                              buttonName,
+                              style: TextStyle(
+                                  color: appColors.white, fontSize: 25),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]))),
       ),
     );
-  }
-
-  Widget _options() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                color: appColors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15))),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: TextField(
-                  controller: idController,
-                  style: TextStyle(color: appColors.textColor),
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'Card ID',
-                      hintText: 'Enter the Card ID')),
-            ),
-          ),
-          Container(
-            color: appColors.white,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: TextField(
-                  controller: nameController,
-                  style: TextStyle(color: appColors.textColor),
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'Name',
-                      hintText: 'Enter the Name')),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                color: blockColor,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15))),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: TextField(
-                  enabled: !blockRole,
-                  controller: roleController,
-                  style: TextStyle(color: appColors.textColor),
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'Role',
-                      hintText: 'Enter the Role')),
-            ),
-          ),
-          SizedBox(height: 30),
-          _setPlace(havePlace),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-            child: Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: appColors.darkBlue,
-                  borderRadius: BorderRadius.circular(20)),
-              child: TextButton(
-                onPressed: _onButtonPressed,
-                child: Text(
-                  buttonName,
-                  style: TextStyle(color: appColors.white, fontSize: 25),
-                ),
-              ),
-            ),
-          )
-        ]);
   }
 
   Future<bool> _onBackButtonPressed() async {
@@ -179,8 +156,8 @@ class _UserEditViewState extends State<UserEditView> {
     }
 
     if (isNew) {
-      operation = await helper.createUser(idController.text,
-          nameController.text, roleController.text, placeController.text);
+      operation = await helper.createUser(
+          idController.text, nameController.text, roleValue!, currentValue!);
       if (operation) _messagePopup('Correcto', 'Usuario creado correctamente');
 
       return;
@@ -197,16 +174,16 @@ class _UserEditViewState extends State<UserEditView> {
     }
 
     operation = await helper.updateUser(this.id!, idController.text,
-        nameController.text, roleController.text, currentValue);
+        nameController.text, roleValue!, currentValue!);
     if (operation)
       _messagePopup('Correcto', 'Datos de usuario actualizados correctamente');
   }
 
   void _selectButtonName() {
     if (isNew)
-      this.buttonName = 'Create';
+      this.buttonName = 'Crear';
     else
-      this.buttonName = 'Update';
+      this.buttonName = 'Actualizar';
   }
 
   void _selectRoleColor() {
@@ -281,7 +258,7 @@ class _UserEditViewState extends State<UserEditView> {
           future: _initPlaces(),
           builder: (context, AsyncSnapshot<bool> snapshot) => snapshot.hasData
               ? Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                   child: Container(
                       decoration: BoxDecoration(
                           color: blockColor,
@@ -309,6 +286,37 @@ class _UserEditViewState extends State<UserEditView> {
     return SizedBox(height: 0);
   }
 
+  Widget _setRole() {
+    return FutureBuilder(
+        future: _setRoles(),
+        builder: (context, snapshot) => snapshot.hasData
+            ? Container(
+                decoration: BoxDecoration(
+                    color: blockColor,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15))),
+                child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    child: DropdownButton<String>(
+                        items: roles,
+                        value: this.roleValue,
+                        isExpanded: true,
+                        hint: Text('Seleccione un rol'),
+                        onChanged: (newValue) {
+                          if (!blockRole) {
+                            setState(() {
+                              if (newValue != null &&
+                                  newValue.compareTo('guest') != 0)
+                                this.roleValue = newValue;
+                            });
+                          } else
+                            return null;
+                        })),
+              )
+            : SizedBox(height: 0));
+  }
+
   Widget _setPassword() {
     return isNew
         ? Padding(
@@ -322,6 +330,16 @@ class _UserEditViewState extends State<UserEditView> {
                     labelText: 'Password',
                     hintText: 'Enter the password')))
         : SizedBox(height: 0);
+  }
+
+  Future<bool> _setRoles() async {
+    roles.clear();
+
+    for (String index in this.rolesNames) {
+      this.roles.add(DropdownMenuItem(child: Text(index), value: index));
+    }
+
+    return true;
   }
 
   Future<bool> _initPlaces() async {

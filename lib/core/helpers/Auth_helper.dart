@@ -161,7 +161,10 @@ class AuthHelper {
       }
 
       data.add(new PermissionModel(
+          id: '${index['id']}',
+          placeId: '${index['place_id']}',
           place: place,
+          guestId: '${index['guest_id']}',
           guest: guest,
           startingDay: '${index['start_day']}',
           finishingDay: '${index['end_day']}',
@@ -362,6 +365,38 @@ class AuthHelper {
     return await _backend
         .updatePlace(_tokens.userToken, id, name)
         .then((value) {
+      if (value['statusCode'] as int != 200) return false;
+
+      return true;
+    });
+  }
+
+  Future<bool> createPermission(String placeId, String guestId, String startDay,
+      String endDay, String startHour, String endHour) async {
+    return await _backend
+        .createPermission(_tokens.userToken, placeId, guestId, startDay, endDay,
+            startHour, endHour)
+        .then((value) {
+      if (value['statusCode'] as int != 200) return false;
+
+      return true;
+    });
+  }
+
+  Future<bool> updatePermission(String id, String placeId, String guestId,
+      String startDay, String endDay, String startHour, String endHour) async {
+    return await _backend
+        .updatePermission(_tokens.userToken, id, placeId, guestId, startDay,
+            endDay, startHour, endHour)
+        .then((value) {
+      if (value['statusCode'] as int != 200) return false;
+
+      return true;
+    });
+  }
+
+  Future<bool> deletePermission(String id) async {
+    return await _backend.deletePermission(_tokens.userToken, id).then((value) {
       if (value['statusCode'] as int != 200) return false;
 
       return true;

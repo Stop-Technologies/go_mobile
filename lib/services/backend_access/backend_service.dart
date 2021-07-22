@@ -4,13 +4,13 @@ import 'dart:convert';
 /// The class BackendService is used to generate structured querys to the API
 /// endpoints in order to properly interact with the backend service
 class BackendService {
-  final _HttpRequests http = new _HttpRequests();
+  final _HttpRequests _http = new _HttpRequests();
 
   /// Is an asyncronous function used to generate a structured post query to
   /// authenticate in the backend service
   /// * return the API response
   dynamic authenticate(String id, String password) async {
-    return await http.makePostRequest('auth/login', body: {
+    return await _http.makePostRequest('auth/login', body: {
       'username': id,
       'password': password,
       'grant_type': 'password',
@@ -24,7 +24,7 @@ class BackendService {
   /// refresh the access tokens to the backend service
   /// * return the API response
   dynamic refreshToken(String token) async {
-    return await http.makePostRequest('auth/tokens/refresh', body: {
+    return await _http.makePostRequest('auth/tokens/refresh', body: {
       'refresh_token': token,
       'grant_type': 'refresh_token',
       'client_id': 'go'
@@ -35,7 +35,7 @@ class BackendService {
   /// revoke the access tokens to the backend service
   /// * return the API response
   dynamic revokeToken(String token) async {
-    return await http.makePostRequest('auth/logout', body: {
+    return await _http.makePostRequest('auth/logout', body: {
       'token': token,
       'token_type_hint': 'access_token',
       'client_id': 'go'
@@ -46,7 +46,7 @@ class BackendService {
   /// get access to user data stored in the backend service
   /// * return the API response
   dynamic userInfo(String token) async {
-    return await http
+    return await _http
         .makeGetRequest('users', headers: {'Authorization': 'Bearer $token'});
   }
 
@@ -54,7 +54,7 @@ class BackendService {
   /// get access to permissions data stored in the backend service
   /// * return the API response
   dynamic permissionsInfo(String token) async {
-    return await http.makeGetRequest('admin/permissions',
+    return await _http.makeGetRequest('admin/permissions',
         headers: {'Authorization': 'Bearer $token'});
   }
 
@@ -62,7 +62,7 @@ class BackendService {
   /// get access to a place data stored in the backend service
   /// * retrun the API response
   dynamic placeInfo(String token, String id) async {
-    return await http.makeGetRequest('admin/places/$id',
+    return await _http.makeGetRequest('admin/places/$id',
         headers: {'Authorization': 'Bearer $token'});
   }
 
@@ -70,7 +70,7 @@ class BackendService {
   /// get access to guest data stored in the backend service
   /// * return the API response
   dynamic guestInfo(String token, String id) async {
-    return await http.makeGetRequest('permissions/access/$id',
+    return await _http.makeGetRequest('permissions/access/$id',
         headers: {'Authorization': 'Bearer $token'});
   }
 
@@ -78,7 +78,7 @@ class BackendService {
   /// get access to all places data stored in the backend service
   /// * retrun the API response
   dynamic placesInfo(String token) async {
-    return await http.makeGetRequest('admin/places',
+    return await _http.makeGetRequest('admin/places',
         headers: {'Authorization': 'Bearer $token'});
   }
 
@@ -86,7 +86,7 @@ class BackendService {
   /// get access to all guests data stored in the backend service
   /// * return the API response
   dynamic guestsInfo(String token) async {
-    return await http.makeGetRequest('admin/guests',
+    return await _http.makeGetRequest('admin/guests',
         headers: {'Authorization': 'Bearer $token'});
   }
 
@@ -95,7 +95,7 @@ class BackendService {
   /// service
   /// * return the API response
   dynamic occupationInfo(String token, String id) async {
-    return await http.makeGetRequest('admin/places/$id/current_guests',
+    return await _http.makeGetRequest('admin/places/$id/current_guests',
         headers: {'Authorization': 'Bearer $token'});
   }
 
@@ -103,13 +103,13 @@ class BackendService {
   /// get access to user data stored in the backend service
   /// * return the API response
   dynamic usersInfo(String token) async {
-    return await http.makeGetRequest('admin/users',
+    return await _http.makeGetRequest('admin/users',
         headers: {'Authorization': 'Bearer $token'});
   }
 
   dynamic updateUser(String token, String id, String newId, String newName,
       String newRole, String newPlace) async {
-    return await http.makePutRequest('admin/users/$id',
+    return await _http.makePutRequest('admin/users/$id',
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json'
@@ -126,7 +126,7 @@ class BackendService {
 
   dynamic createUser(
       String token, String id, String name, String role, String placeId) async {
-    return await http.makePostRequest('admin/users',
+    return await _http.makePostRequest('admin/users',
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json'
@@ -138,7 +138,7 @@ class BackendService {
 
   dynamic updateGuest(
       String token, String id, String newId, String newName) async {
-    return await http.makePutRequest('admin/guests/$id',
+    return await _http.makePutRequest('admin/guests/$id',
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json'
@@ -149,7 +149,7 @@ class BackendService {
   }
 
   dynamic createGuest(String token, String id, String name) async {
-    return await http.makePostRequest('admin/guests',
+    return await _http.makePostRequest('admin/guests',
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json'
@@ -160,22 +160,22 @@ class BackendService {
   }
 
   dynamic deleteGuest(String token, String id) async {
-    return await http.makeDeleteRequest('admin/guests/$id',
+    return await _http.makeDeleteRequest('admin/guests/$id',
         headers: {'Authorization': 'Bearer $token'});
   }
 
   dynamic deleteUser(String token, String id) async {
-    return await http.makeDeleteRequest('admin/users/$id',
+    return await _http.makeDeleteRequest('admin/users/$id',
         headers: {'Authorization': 'Bearer $token'});
   }
 
   dynamic deletePlace(String token, String id) async {
-    return await http.makeDeleteRequest('admin/places/$id',
+    return await _http.makeDeleteRequest('admin/places/$id',
         headers: {'Authorization': 'Bearer $token'});
   }
 
   dynamic createPlace(String token, String name) async {
-    return await http.makePostRequest('admin/places',
+    return await _http.makePostRequest('admin/places',
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json'
@@ -186,7 +186,7 @@ class BackendService {
   }
 
   dynamic updatePlace(String token, String id, String name) async {
-    return await http.makePutRequest('admin/places/$id',
+    return await _http.makePutRequest('admin/places/$id',
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json'
@@ -195,13 +195,63 @@ class BackendService {
           'place': {'name': name}
         }));
   }
+
+  dynamic createPermission(String token, String placeId, String guestId,
+      String startDay, String endDay, String startHour, String endHour) async {
+    return await _http.makePostRequest('admin/permissions',
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'permission': {
+            'place_id': placeId,
+            'guest_id': guestId,
+            'start_day': startDay,
+            'end_day': endDay,
+            'start_time': startHour,
+            'end_time': endHour
+          }
+        }));
+  }
+
+  dynamic updatePermission(
+      String token,
+      String id,
+      String placeId,
+      String guestId,
+      String startDay,
+      String endDay,
+      String startHour,
+      String endHour) async {
+    return await _http.makePutRequest('admin/permissions/$id',
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'permission': {
+            'place_id': placeId,
+            'guest_id': guestId,
+            'start_day': startDay,
+            'end_day': endDay,
+            'start_time': startHour,
+            'end_time': endHour
+          }
+        }));
+  }
+
+  dynamic deletePermission(String token, String id) async {
+    return await _http.makeDeleteRequest('admin/permissions/$id',
+        headers: {'Authorization': 'Bearer $token'});
+  }
 }
 
 /// The private class _HttpRequests is used to communicate with the API endpoints
 /// to send querys and get data from the backend service
 class _HttpRequests {
   //TODO: Use environment variables or configuration files.
-  String urlBase = 'http://192.168.0.18:3000/';
+  String urlBase = 'http://192.168.0.10:3000/';
 
   /// Is an asyncronous function used to generate a post request to the API
   /// endpoints with a given route, body and headers
