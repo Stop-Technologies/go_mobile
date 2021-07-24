@@ -77,7 +77,7 @@ class _PermissionWidgetState extends State<PermissionWidget> {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(place!,
+                                  child: Text('lugar: ${place!}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: appColors.textColor,
@@ -94,7 +94,7 @@ class _PermissionWidgetState extends State<PermissionWidget> {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(guest!,
+                                  child: Text('invitado: ${guest!}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: appColors.textColor,
@@ -111,7 +111,7 @@ class _PermissionWidgetState extends State<PermissionWidget> {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(days!,
+                                  child: Text('dias: ${days!}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: appColors.textColor,
@@ -128,7 +128,7 @@ class _PermissionWidgetState extends State<PermissionWidget> {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(hours!,
+                                  child: Text('horas: ${hours!}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: appColors.textColor,

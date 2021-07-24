@@ -55,7 +55,7 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text('name: $name',
+                                  child: Text('nombre: $name',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: appColors.textColor,
@@ -72,7 +72,7 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text('occupation: $occupation',
+                                  child: Text('ocupación: $occupation',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: appColors.textColor,

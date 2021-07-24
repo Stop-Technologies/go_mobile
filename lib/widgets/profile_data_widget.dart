@@ -47,7 +47,7 @@ class _ProfileDataState extends State<ProfileData> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
-                            name,
+                            'nombre: $name',
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -66,7 +66,7 @@ class _ProfileDataState extends State<ProfileData> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
-                            id,
+                            'id: $id',
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -90,7 +90,7 @@ class _ProfileDataState extends State<ProfileData> {
                               child: TextButton(
                                 onPressed: _onLogoutButtonPressed,
                                 child: Text(
-                                  'Log Out',
+                                  'Cerrar Sesión',
                                   style: TextStyle(
                                       color: appColors.white, fontSize: 25),
                                 ),
@@ -103,7 +103,7 @@ class _ProfileDataState extends State<ProfileData> {
                                   //TODO: Create a view for this and push it here
                                 },
                                 child: Text(
-                                  'Need Help?',
+                                  'Necesita Ayuda?',
                                   style: TextStyle(
                                       color: appColors.textColor, fontSize: 15),
                                 ),

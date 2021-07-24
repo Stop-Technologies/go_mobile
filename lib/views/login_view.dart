@@ -52,8 +52,8 @@ class _LoginViewState extends State<LoginView> {
                             style: TextStyle(color: appColors.textColor),
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                labelText: 'Card ID',
-                                hintText: 'Enter your Card ID'),
+                                labelText: 'ID de tarjeta',
+                                hintText: 'Ingrese el ID de su tarjeta'),
                           ),
                         ),
                         Divider(),
@@ -66,8 +66,8 @@ class _LoginViewState extends State<LoginView> {
                             style: TextStyle(color: appColors.textColor),
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                labelText: 'Password',
-                                hintText: 'Enter your secure password'),
+                                labelText: 'Contraseña',
+                                hintText: 'Ingrese su contraseña'),
                           ),
                         ),
                       ],
@@ -82,7 +82,7 @@ class _LoginViewState extends State<LoginView> {
                 child: TextButton(
                   onPressed: () => _onLoginButtonPressed(context),
                   child: Text(
-                    'Log In',
+                    'Ingresar',
                     style: TextStyle(color: appColors.white, fontSize: 25),
                   ),
                 ),
@@ -94,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
                     _errorPopup('Esta función no está implementada de momento');
                   },
                   child: Text(
-                    'Forgot Password',
+                    'Olvide mi contraseña',
                     style: TextStyle(color: appColors.white, fontSize: 15),
                   ),
                 ),

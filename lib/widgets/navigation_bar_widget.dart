@@ -55,13 +55,13 @@ class _NavigationBarState extends State<NavigationBar> {
               BottomNavigationBarItem(
                   icon:
                       Icon(appIcons.profileBarIcon, color: appColors.textColor),
-                  label: 'Profile'),
+                  label: 'Perfil'),
               BottomNavigationBarItem(
-                  icon: Icon(appIcons.nfcBarIcon), label: 'Scan'),
+                  icon: Icon(appIcons.nfcBarIcon), label: 'Escanear'),
               BottomNavigationBarItem(
-                  icon: Icon(appIcons.controlBarIcon), label: 'Data Control'),
+                  icon: Icon(appIcons.controlBarIcon), label: 'Control'),
               BottomNavigationBarItem(
-                  icon: Icon(appIcons.settingsBarIcon), label: 'Settings'),
+                  icon: Icon(appIcons.settingsBarIcon), label: 'Configuración'),
             ],
             currentIndex: _selectedIndex,
             onTap: _onItemTap,

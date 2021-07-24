@@ -541,7 +541,7 @@ class _PermissionEditViewState extends State<PermissionEditView> {
     hours.clear();
     minutes.clear();
 
-    for (int i = 1; i < 24; i++) {
+    for (int i = 0; i < 24; i++) {
       hours.add(DropdownMenuItem<String>(
           child: Text(i.toString()), value: i.toString()));
     }

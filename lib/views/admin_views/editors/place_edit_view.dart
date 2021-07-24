@@ -71,8 +71,8 @@ class _PlaceEditViewState extends State<PlaceEditView> {
                               style: TextStyle(color: appColors.textColor),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  labelText: 'Place ID',
-                                  hintText: 'Enter the Place ID')),
+                                  labelText: 'ID del lugar',
+                                  hintText: 'Ingese el ID del lugar')),
                         ),
                       ),
                       Container(
@@ -88,8 +88,8 @@ class _PlaceEditViewState extends State<PlaceEditView> {
                               style: TextStyle(color: appColors.textColor),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  labelText: 'Name',
-                                  hintText: 'Enter the Place Name')),
+                                  labelText: 'Nombre',
+                                  hintText: 'Ingrese el nombre del lugar')),
                         ),
                       ),
                       SizedBox(height: 30),

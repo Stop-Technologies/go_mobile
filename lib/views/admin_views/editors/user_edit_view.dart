@@ -97,8 +97,8 @@ class _UserEditViewState extends State<UserEditView> {
                               style: TextStyle(color: appColors.textColor),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  labelText: 'Card ID',
-                                  hintText: 'Enter the Card ID')),
+                                  labelText: 'ID tarjeta',
+                                  hintText: 'Ingrese el ID de la tarjeta')),
                         ),
                       ),
                       Container(
@@ -110,8 +110,8 @@ class _UserEditViewState extends State<UserEditView> {
                               style: TextStyle(color: appColors.textColor),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  labelText: 'Name',
-                                  hintText: 'Enter the Name')),
+                                  labelText: 'Nombre',
+                                  hintText: 'Ingese el nombre')),
                         ),
                       ),
                       _setRole(),

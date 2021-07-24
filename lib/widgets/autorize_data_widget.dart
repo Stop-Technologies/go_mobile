@@ -101,11 +101,11 @@ class AutorizeData extends StatelessWidget {
   void _setValues() {
     if (this._access) {
       this._backgroundColor = appColors.green;
-      this._accessText = 'Access Allowed';
+      this._accessText = 'Acceso Permitido';
       this._iconName = appIcons.allowedIcon;
     } else {
       this._backgroundColor = appColors.red;
-      this._accessText = 'Access Denied';
+      this._accessText = 'Acceso Denegadod';
       this._iconName = appIcons.deniedIcon;
     }
   }

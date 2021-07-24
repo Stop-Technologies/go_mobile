@@ -97,7 +97,7 @@ class _UserWidgetState extends State<UserWidget> {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text('name: $name',
+                                  child: Text('nombre: $name',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: appColors.textColor,
@@ -114,7 +114,7 @@ class _UserWidgetState extends State<UserWidget> {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text('role: $role',
+                                  child: Text('rol: $role',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: appColors.textColor,
@@ -153,7 +153,7 @@ class _UserWidgetState extends State<UserWidget> {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text('place: $place',
+                      child: Text('lugar: $place',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: appColors.textColor, fontSize: 20))))));
